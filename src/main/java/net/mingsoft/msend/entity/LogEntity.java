@@ -40,31 +40,6 @@ public class LogEntity extends BaseEntity {
 	 */
 	private Integer logType; 
 	
-	public LogEntity(){}
-	public LogEntity(Integer logId) {
-	this.logId = logId;	
-	}
-	
-	public LogEntity(Integer appId) {
-		this.appId = appId;	
-	}
-	
-	public LogEntity(Integer appId,Date logDatetime) {
-		this.appId = appId;		this.logDatetime = logDatetime;	
-	}
-	
-	public LogEntity(Integer appId,Date logDatetime,String logContent) {
-		this.appId = appId;		this.logDatetime = logDatetime;		this.logContent = logContent;	
-	}
-	
-	public LogEntity(Integer appId,Date logDatetime,String logContent,String logReceive) {
-		this.appId = appId;		this.logDatetime = logDatetime;		this.logContent = logContent;		this.logReceive = logReceive;	
-	}
-	
-	public LogEntity(Integer appId,Date logDatetime,String logContent,String logReceive,Integer logType) {
-		this.appId = appId;		this.logDatetime = logDatetime;		this.logContent = logContent;		this.logReceive = logReceive;		this.logType = logType;	
-	}
-	
 		
 	/**
 	 * 设置

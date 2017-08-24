@@ -40,31 +40,6 @@ public class TemplateEntity extends BaseEntity {
 	 */
 	private String templateCode; 
 	
-	public TemplateEntity(){}
-	public TemplateEntity(Integer templateId) {
-	this.templateId = templateId;	
-	}
-	
-	public TemplateEntity(Integer modelId) {
-		this.modelId = modelId;	
-	}
-	
-	public TemplateEntity(Integer modelId,Integer appId) {
-		this.modelId = modelId;		this.appId = appId;	
-	}
-	
-	public TemplateEntity(Integer modelId,Integer appId,String templateContent) {
-		this.modelId = modelId;		this.appId = appId;		this.templateContent = templateContent;	
-	}
-	
-	public TemplateEntity(Integer modelId,Integer appId,String templateContent,String templateTitle) {
-		this.modelId = modelId;		this.appId = appId;		this.templateContent = templateContent;		this.templateTitle = templateTitle;	
-	}
-	
-	public TemplateEntity(Integer modelId,Integer appId,String templateContent,String templateTitle,String templateCode) {
-		this.modelId = modelId;		this.appId = appId;		this.templateContent = templateContent;		this.templateTitle = templateTitle;		this.templateCode = templateCode;	
-	}
-	
 		
 	/**
 	 * 设置编号
