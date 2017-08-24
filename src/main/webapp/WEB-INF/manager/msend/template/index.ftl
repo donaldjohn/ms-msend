@@ -71,21 +71,30 @@
 				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
 				        	}
 				    	},							    	{
-				        	field: 'templateContent',
-				        	title: '模板内容',
-				        	width:'65,535',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/msend/template/form.do?templateContent="+row.templateContent;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
 				        	field: 'templateTitle',
 				        	title: '标题',
 				        	width:'100',
 				        	align: 'center',
 				        	formatter:function(value,row,index) {
 				        		var url = "${managerPath}/msend/template/form.do?templateTitle="+row.templateTitle;
+				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
+				        	}
+				    	},							    	{
+				        	field: 'templateMail',
+				        	title: '',
+				        	width:'1,000',
+				        	align: 'center',
+				        	formatter:function(value,row,index) {
+				        		var url = "${managerPath}/msend/template/form.do?templateMail="+row.templateMail;
+				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
+				        	}
+				    	},							    	{
+				        	field: 'templateSms',
+				        	title: '',
+				        	width:'1,000',
+				        	align: 'center',
+				        	formatter:function(value,row,index) {
+				        		var url = "${managerPath}/msend/template/form.do?templateSms="+row.templateSms;
 				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
 				        	}
 				    	},							    	{

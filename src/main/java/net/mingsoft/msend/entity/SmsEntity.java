@@ -4,16 +4,16 @@ import com.mingsoft.base.entity.BaseEntity;
 import java.util.Date;
 
  /**
- * 暂无描述实体
+ * 短信实体
  * @author 伍晶晶
  * @version 
  * 版本号：0.0<br/>
- * 创建日期：2017-8-24 14:41:18<br/>
+ * 创建日期：2017-8-24 17:52:29<br/>
  * 历史修订：<br/>
  */
 public class SmsEntity extends BaseEntity {
 
-	private static final long serialVersionUID = 1503556878946L;
+	private static final long serialVersionUID = 1503568349405L;
 	
 	/**
 	 * 应用编号
@@ -51,43 +51,6 @@ public class SmsEntity extends BaseEntity {
 	 * 0启用 1禁用
 	 */
 	private Integer smsEnable; 
-	
-	public SmsEntity(){}
-	public SmsEntity(Integer appId) {
-	this.appId = appId;	
-	}
-	
-	public SmsEntity(String smsType) {
-		this.smsType = smsType;	
-	}
-	
-	public SmsEntity(String smsType,String smsUsername) {
-		this.smsType = smsType;		this.smsUsername = smsUsername;	
-	}
-	
-	public SmsEntity(String smsType,String smsUsername,String smsPassword) {
-		this.smsType = smsType;		this.smsUsername = smsUsername;		this.smsPassword = smsPassword;	
-	}
-	
-	public SmsEntity(String smsType,String smsUsername,String smsPassword,String smsSendUrl) {
-		this.smsType = smsType;		this.smsUsername = smsUsername;		this.smsPassword = smsPassword;		this.smsSendUrl = smsSendUrl;	
-	}
-	
-	public SmsEntity(String smsType,String smsUsername,String smsPassword,String smsSendUrl,String smsAccountUrl) {
-		this.smsType = smsType;		this.smsUsername = smsUsername;		this.smsPassword = smsPassword;		this.smsSendUrl = smsSendUrl;		this.smsAccountUrl = smsAccountUrl;	
-	}
-	
-	public SmsEntity(String smsType,String smsUsername,String smsPassword,String smsSendUrl,String smsAccountUrl,String smsManagerUrl) {
-		this.smsType = smsType;		this.smsUsername = smsUsername;		this.smsPassword = smsPassword;		this.smsSendUrl = smsSendUrl;		this.smsAccountUrl = smsAccountUrl;		this.smsManagerUrl = smsManagerUrl;	
-	}
-	
-	public SmsEntity(String smsType,String smsUsername,String smsPassword,String smsSendUrl,String smsAccountUrl,String smsManagerUrl,String smsSignature) {
-		this.smsType = smsType;		this.smsUsername = smsUsername;		this.smsPassword = smsPassword;		this.smsSendUrl = smsSendUrl;		this.smsAccountUrl = smsAccountUrl;		this.smsManagerUrl = smsManagerUrl;		this.smsSignature = smsSignature;	
-	}
-	
-	public SmsEntity(String smsType,String smsUsername,String smsPassword,String smsSendUrl,String smsAccountUrl,String smsManagerUrl,String smsSignature,Integer smsEnable) {
-		this.smsType = smsType;		this.smsUsername = smsUsername;		this.smsPassword = smsPassword;		this.smsSendUrl = smsSendUrl;		this.smsAccountUrl = smsAccountUrl;		this.smsManagerUrl = smsManagerUrl;		this.smsSignature = smsSignature;		this.smsEnable = smsEnable;	
-	}
 	
 		
 	/**

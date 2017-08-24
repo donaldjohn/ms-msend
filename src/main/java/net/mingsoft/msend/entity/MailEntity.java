@@ -52,44 +52,6 @@ public class MailEntity extends BaseEntity {
 	 */
 	private Integer mailEnable; 
 	
-	public MailEntity(){}
-	public MailEntity(Integer appId) {
-	this.appId = appId;	
-	}
-	
-	public MailEntity(String mailType) {
-		this.mailType = mailType;	
-	}
-	
-	public MailEntity(String mailType,String mailName) {
-		this.mailType = mailType;		this.mailName = mailName;	
-	}
-	
-	public MailEntity(String mailType,String mailName,String mailPassword) {
-		this.mailType = mailType;		this.mailName = mailName;		this.mailPassword = mailPassword;	
-	}
-	
-	public MailEntity(String mailType,String mailName,String mailPassword,Integer mailPort) {
-		this.mailType = mailType;		this.mailName = mailName;		this.mailPassword = mailPassword;		this.mailPort = mailPort;	
-	}
-	
-	public MailEntity(String mailType,String mailName,String mailPassword,Integer mailPort,String mailServer) {
-		this.mailType = mailType;		this.mailName = mailName;		this.mailPassword = mailPassword;		this.mailPort = mailPort;		this.mailServer = mailServer;	
-	}
-	
-	public MailEntity(String mailType,String mailName,String mailPassword,Integer mailPort,String mailServer,String mailForm) {
-		this.mailType = mailType;		this.mailName = mailName;		this.mailPassword = mailPassword;		this.mailPort = mailPort;		this.mailServer = mailServer;		this.mailForm = mailForm;	
-	}
-	
-	public MailEntity(String mailType,String mailName,String mailPassword,Integer mailPort,String mailServer,String mailForm,String mailFormName) {
-		this.mailType = mailType;		this.mailName = mailName;		this.mailPassword = mailPassword;		this.mailPort = mailPort;		this.mailServer = mailServer;		this.mailForm = mailForm;		this.mailFormName = mailFormName;	
-	}
-	
-	public MailEntity(String mailType,String mailName,String mailPassword,Integer mailPort,String mailServer,String mailForm,String mailFormName,Integer mailEnable) {
-		this.mailType = mailType;		this.mailName = mailName;		this.mailPassword = mailPassword;		this.mailPort = mailPort;		this.mailServer = mailServer;		this.mailForm = mailForm;		this.mailFormName = mailFormName;		this.mailEnable = mailEnable;	
-	}
-	
-		
 	/**
 	 * 设置应用编号
 	 */

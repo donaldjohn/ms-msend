@@ -8,12 +8,12 @@ import java.util.Date;
  * @author 伍晶晶
  * @version 
  * 版本号：0.0<br/>
- * 创建日期：2017-8-24 14:41:18<br/>
+ * 创建日期：2017-8-24 17:52:29<br/>
  * 历史修订：<br/>
  */
 public class TemplateEntity extends BaseEntity {
 
-	private static final long serialVersionUID = 1503556878950L;
+	private static final long serialVersionUID = 1503568349408L;
 	
 	/**
 	 * 编号
@@ -28,13 +28,17 @@ public class TemplateEntity extends BaseEntity {
 	 */
 	private Integer appId; 
 	/**
-	 * 模板内容
-	 */
-	private String templateContent; 
-	/**
 	 * 标题
 	 */
 	private String templateTitle; 
+	/**
+	 * 
+	 */
+	private String templateMail; 
+	/**
+	 * 
+	 */
+	private String templateSms; 
 	/**
 	 * 邮件模块代码
 	 */
@@ -84,20 +88,6 @@ public class TemplateEntity extends BaseEntity {
 	}
 	
 	/**
-	 * 设置模板内容
-	 */
-	public void setTemplateContent(String templateContent) {
-		this.templateContent = templateContent;
-	}
-
-	/**
-	 * 获取模板内容
-	 */
-	public String getTemplateContent() {
-		return this.templateContent;
-	}
-	
-	/**
 	 * 设置标题
 	 */
 	public void setTemplateTitle(String templateTitle) {
@@ -109,6 +99,34 @@ public class TemplateEntity extends BaseEntity {
 	 */
 	public String getTemplateTitle() {
 		return this.templateTitle;
+	}
+	
+	/**
+	 * 设置
+	 */
+	public void setTemplateMail(String templateMail) {
+		this.templateMail = templateMail;
+	}
+
+	/**
+	 * 获取
+	 */
+	public String getTemplateMail() {
+		return this.templateMail;
+	}
+	
+	/**
+	 * 设置
+	 */
+	public void setTemplateSms(String templateSms) {
+		this.templateSms = templateSms;
+	}
+
+	/**
+	 * 获取
+	 */
+	public String getTemplateSms() {
+		return this.templateSms;
 	}
 	
 	/**

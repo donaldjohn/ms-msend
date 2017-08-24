@@ -31,11 +31,11 @@ import com.mingsoft.base.filter.DoubleValueFilter;
 import net.mingsoft.basic.bean.EUListBean;
 	
 /**
- * 暂无描述管理控制层
+ * 短信管理控制层
  * @author 伍晶晶
  * @version 
  * 版本号：0.0<br/>
- * 创建日期：2017-8-24 14:41:18<br/>
+ * 创建日期：2017-8-24 17:52:29<br/>
  * 历史修订：<br/>
  */
 @Controller
@@ -43,7 +43,7 @@ import net.mingsoft.basic.bean.EUListBean;
 public class SmsAction extends net.mingsoft.msend.action.BaseAction{
 	
 	/**
-	 * 注入暂无描述业务层
+	 * 注入短信业务层
 	 */	
 	@Autowired
 	private ISmsBiz smsBiz;
@@ -57,8 +57,8 @@ public class SmsAction extends net.mingsoft.msend.action.BaseAction{
 	}
 	
 	/**
-	 * 查询暂无描述列表
-	 * @param sms 暂无描述实体
+	 * 查询短信列表
+	 * @param sms 短信实体
 	 * <i>sms参数包含字段信息参考：</i><br/>
 	 * appId 应用编号<br/>
 	 * smsType 短信接口类型<br/>
@@ -106,8 +106,8 @@ public class SmsAction extends net.mingsoft.msend.action.BaseAction{
 	}
 	
 	/**
-	 * 获取暂无描述
-	 * @param sms 暂无描述实体
+	 * 获取短信
+	 * @param sms 短信实体
 	 * <i>sms参数包含字段信息参考：</i><br/>
 	 * appId 应用编号<br/>
 	 * smsType 短信接口类型<br/>
@@ -143,8 +143,8 @@ public class SmsAction extends net.mingsoft.msend.action.BaseAction{
 	}
 	
 	/**
-	 * 保存暂无描述实体
-	 * @param sms 暂无描述实体
+	 * 保存短信实体
+	 * @param sms 短信实体
 	 * <i>sms参数包含字段信息参考：</i><br/>
 	 * appId 应用编号<br/>
 	 * smsType 短信接口类型<br/>
@@ -203,10 +203,10 @@ public class SmsAction extends net.mingsoft.msend.action.BaseAction{
 	}
 	
 	/**
-	 * @param sms 暂无描述实体
+	 * @param sms 短信实体
 	 * <i>sms参数包含字段信息参考：</i><br/>
 	 * appId:多个appId直接用逗号隔开,例如appId=1,2,3,4
-	 * 批量删除暂无描述
+	 * 批量删除短信
 	 *            <dt><span class="strong">返回</span></dt><br/>
 	 *            <dd>{code:"错误编码",<br/>
 	 *            result:"true｜false",<br/>
@@ -225,8 +225,8 @@ public class SmsAction extends net.mingsoft.msend.action.BaseAction{
 	}
 	
 	/** 
-	 * 更新暂无描述信息暂无描述
-	 * @param sms 暂无描述实体
+	 * 更新短信信息短信
+	 * @param sms 短信实体
 	 * <i>sms参数包含字段信息参考：</i><br/>
 	 * appId 应用编号<br/>
 	 * smsType 短信接口类型<br/>

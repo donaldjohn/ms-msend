@@ -35,7 +35,7 @@ import net.mingsoft.basic.bean.EUListBean;
  * @author 伍晶晶
  * @version 
  * 版本号：0.0<br/>
- * 创建日期：2017-8-24 14:41:18<br/>
+ * 创建日期：2017-8-24 17:52:29<br/>
  * 历史修订：<br/>
  */
 @Controller
@@ -63,8 +63,9 @@ public class TemplateAction extends net.mingsoft.msend.action.BaseAction{
 	 * templateId 编号<br/>
 	 * modelId 模块编号<br/>
 	 * appId 应用编号<br/>
-	 * templateContent 模板内容<br/>
 	 * templateTitle 标题<br/>
+	 * templateMail <br/>
+	 * templateSms <br/>
 	 * templateCode 邮件模块代码<br/>
 	 * <dt><span class="strong">返回</span></dt><br/>
 	 * <dd>[<br/>
@@ -72,8 +73,9 @@ public class TemplateAction extends net.mingsoft.msend.action.BaseAction{
 	 * templateId: 编号<br/>
 	 * modelId: 模块编号<br/>
 	 * appId: 应用编号<br/>
-	 * templateContent: 模板内容<br/>
 	 * templateTitle: 标题<br/>
+	 * templateMail: <br/>
+	 * templateSms: <br/>
 	 * templateCode: 邮件模块代码<br/>
 	 * }<br/>
 	 * ]</dd><br/>	 
@@ -106,16 +108,18 @@ public class TemplateAction extends net.mingsoft.msend.action.BaseAction{
 	 * templateId 编号<br/>
 	 * modelId 模块编号<br/>
 	 * appId 应用编号<br/>
-	 * templateContent 模板内容<br/>
 	 * templateTitle 标题<br/>
+	 * templateMail <br/>
+	 * templateSms <br/>
 	 * templateCode 邮件模块代码<br/>
 	 * <dt><span class="strong">返回</span></dt><br/>
 	 * <dd>{ <br/>
 	 * templateId: 编号<br/>
 	 * modelId: 模块编号<br/>
 	 * appId: 应用编号<br/>
-	 * templateContent: 模板内容<br/>
 	 * templateTitle: 标题<br/>
+	 * templateMail: <br/>
+	 * templateSms: <br/>
 	 * templateCode: 邮件模块代码<br/>
 	 * }</dd><br/>
 	 */
@@ -137,16 +141,18 @@ public class TemplateAction extends net.mingsoft.msend.action.BaseAction{
 	 * templateId 编号<br/>
 	 * modelId 模块编号<br/>
 	 * appId 应用编号<br/>
-	 * templateContent 模板内容<br/>
 	 * templateTitle 标题<br/>
+	 * templateMail <br/>
+	 * templateSms <br/>
 	 * templateCode 邮件模块代码<br/>
 	 * <dt><span class="strong">返回</span></dt><br/>
 	 * <dd>{ <br/>
 	 * templateId: 编号<br/>
 	 * modelId: 模块编号<br/>
 	 * appId: 应用编号<br/>
-	 * templateContent: 模板内容<br/>
 	 * templateTitle: 标题<br/>
+	 * templateMail: <br/>
+	 * templateSms: <br/>
 	 * templateCode: 邮件模块代码<br/>
 	 * }</dd><br/>
 	 */
@@ -160,6 +166,16 @@ public class TemplateAction extends net.mingsoft.msend.action.BaseAction{
 		}
 		if(!StringUtil.checkLength(template.getModelId()+"", 1, 10)){
 			this.outJson(response, null, false, getResString("err.length", this.getResString("model.id"), "1", "10"));
+			return;			
+		}
+		//验证的值是否合法			
+		if(StringUtil.isBlank(template.getTemplateMail())){
+			this.outJson(response, null,false,getResString("err.empty", this.getResString("template.mail")));
+			return;			
+		}
+		//验证的值是否合法			
+		if(StringUtil.isBlank(template.getTemplateSms())){
+			this.outJson(response, null,false,getResString("err.empty", this.getResString("template.sms")));
 			return;			
 		}
 		templateBiz.saveEntity(template);
@@ -195,16 +211,18 @@ public class TemplateAction extends net.mingsoft.msend.action.BaseAction{
 	 * templateId 编号<br/>
 	 * modelId 模块编号<br/>
 	 * appId 应用编号<br/>
-	 * templateContent 模板内容<br/>
 	 * templateTitle 标题<br/>
+	 * templateMail <br/>
+	 * templateSms <br/>
 	 * templateCode 邮件模块代码<br/>
 	 * <dt><span class="strong">返回</span></dt><br/>
 	 * <dd>{ <br/>
 	 * templateId: 编号<br/>
 	 * modelId: 模块编号<br/>
 	 * appId: 应用编号<br/>
-	 * templateContent: 模板内容<br/>
 	 * templateTitle: 标题<br/>
+	 * templateMail: <br/>
+	 * templateSms: <br/>
 	 * templateCode: 邮件模块代码<br/>
 	 * }</dd><br/>
 	 */
@@ -219,6 +237,16 @@ public class TemplateAction extends net.mingsoft.msend.action.BaseAction{
 		}
 		if(!StringUtil.checkLength(template.getModelId()+"", 1, 10)){
 			this.outJson(response, null, false, getResString("err.length", this.getResString("model.id"), "1", "10"));
+			return;			
+		}
+		//验证的值是否合法			
+		if(StringUtil.isBlank(template.getTemplateMail())){
+			this.outJson(response, null,false,getResString("err.empty", this.getResString("template.mail")));
+			return;			
+		}
+		//验证的值是否合法			
+		if(StringUtil.isBlank(template.getTemplateSms())){
+			this.outJson(response, null,false,getResString("err.empty", this.getResString("template.sms")));
 			return;			
 		}
 		templateBiz.updateEntity(template);

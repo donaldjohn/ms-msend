@@ -6,8 +6,9 @@
 		<id column="template_id" property="templateId" /><!--编号 -->
 		<result column="model_id" property="modelId" /><!--模块编号 -->
 		<result column="app_id" property="appId" /><!--应用编号 -->
-		<result column="template_content" property="templateContent" /><!--模板内容 -->
 		<result column="template_title" property="templateTitle" /><!--标题 -->
+		<result column="template_mail" property="templateMail" /><!-- -->
+		<result column="template_sms" property="templateSms" /><!-- -->
 		<result column="template_code" property="templateCode" /><!--邮件模块代码 -->
 	</resultMap>
 	
@@ -18,15 +19,17 @@
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="modelId != null">model_id,</if>
 			<if test="appId != null">app_id,</if>
-			<if test="templateContent != null and templateContent != ''">template_content,</if>
 			<if test="templateTitle != null and templateTitle != ''">template_title,</if>
+			<if test="templateMail != null and templateMail != ''">template_mail,</if>
+			<if test="templateSms != null and templateSms != ''">template_sms,</if>
 			<if test="templateCode != null and templateCode != ''">template_code,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="modelId != null">#{modelId},</if>
 			<if test="appId != null">#{appId},</if>
-			<if test="templateContent != null and templateContent != ''">#{templateContent},</if>
 			<if test="templateTitle != null and templateTitle != ''">#{templateTitle},</if>
+			<if test="templateMail != null and templateMail != ''">#{templateMail},</if>
+			<if test="templateSms != null and templateSms != ''">#{templateSms},</if>
 			<if test="templateCode != null and templateCode != ''">#{templateCode},</if>
 		</trim>
 	</insert>
@@ -37,8 +40,9 @@
 		<set>
 			<if test="modelId != null">model_id=#{modelId},</if>			
 			<if test="appId != null">app_id=#{appId},</if>			
-			<if test="templateContent != null and templateContent != ''">template_content=#{templateContent},</if>			
 			<if test="templateTitle != null and templateTitle != ''">template_title=#{templateTitle},</if>			
+			<if test="templateMail != null and templateMail != ''">template_mail=#{templateMail},</if>			
+			<if test="templateSms != null and templateSms != ''">template_sms=#{templateSms},</if>			
 			<if test="templateCode != null and templateCode != ''">template_code=#{templateCode},</if>			
 		</set>
 		where template_id = #{templateId}
@@ -55,8 +59,9 @@
 		<where>
 			<if test="modelId != null"> and model_id=#{modelId} </if>				
 			<if test="appId != null"> and app_id=#{appId} </if>				
-			<if test="templateContent != null and templateContent != ''"> and template_content=#{templateContent} </if>				
 			<if test="templateTitle != null and templateTitle != ''"> and template_title=#{templateTitle} </if>				
+			<if test="templateMail != null and templateMail != ''"> and template_mail=#{templateMail} </if>				
+			<if test="templateSms != null and templateSms != ''"> and template_sms=#{templateSms} </if>				
 			<if test="templateCode != null and templateCode != ''"> and template_code=#{templateCode} </if>				
 		</where>
 		limit 0,1
@@ -86,8 +91,9 @@
 		<where>
 				<if test="modelId != null"> and model_id=#{modelId} </if>				
 				<if test="appId != null"> and app_id=#{appId} </if>				
-				<if test="templateContent != null and templateContent != ''"> and template_content=#{templateContent} </if>				
 				<if test="templateTitle != null and templateTitle != ''"> and template_title=#{templateTitle} </if>				
+				<if test="templateMail != null and templateMail != ''"> and template_mail=#{templateMail} </if>				
+				<if test="templateSms != null and templateSms != ''"> and template_sms=#{templateSms} </if>				
 				<if test="templateCode != null and templateCode != ''"> and template_code=#{templateCode} </if>				
 		</where>		
 		order by template_id desc
