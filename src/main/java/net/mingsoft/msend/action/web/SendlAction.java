@@ -15,6 +15,7 @@ import com.mingsoft.util.StringUtil;
 
 import net.mingsoft.msend.biz.IMailBiz;
 import net.mingsoft.msend.constant.ModelCode;
+import net.mingsoft.msend.util.SendUtil;
 
 /**
  * 邮件管理控制层
@@ -49,15 +50,11 @@ public class SendlAction extends net.mingsoft.msend.action.BaseAction {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "send", method = RequestMethod.POST)
 	public void send(HttpServletRequest request, HttpServletResponse response) {
-		String mail = request.getParameter("receive");
+		String receive = request.getParameter("receive");
 		String modelCode = request.getParameter("modelCode");
 		String content = request.getParameter("content");
 		String type = request.getParameter("type");
 		String[] user = null;
-		// 后台验证传来的用户邮箱地址是否合法
-		if (!StringUtil.isBlank(mail) && StringUtil.isEmail(mail)) {
-			user = new String[] { mail };
-		}
 
 		// 验证模块编码是否为空
 		if (StringUtil.isBlank(modelCode)) {
@@ -71,7 +68,7 @@ public class SendlAction extends net.mingsoft.msend.action.BaseAction {
 
 		Map params = JsonUtil.getJsonToObject(content, Map.class);
 		// 发送邮箱
-		boolean status = this.sendMail(_modelCode, user, params);
+		boolean status = SendUtil.send(_modelCode, receive, params, type);
 		if (status) {
 			// 返回操作成功信息
 			this.outJson(response, null, true);
