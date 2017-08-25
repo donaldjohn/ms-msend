@@ -101,7 +101,7 @@ public class SendUtil {
 			LOG.error("没有配置邮件服务器");
 			return false;
 		}
-		if (mail.getMailType().equals(ThridEnum.SENDCLOUD.toString())) {
+		if (mail.getMailType()!= null && mail.getMailType().equals(ThridEnum.SENDCLOUD.toString())) {
 			try {
 				String _toUser = "";
 				for (int i = 0; i < toUser.length; i++) {
@@ -125,6 +125,7 @@ public class SendUtil {
 				MailUtil.sendHtml(mail.getMailServer(), mail.getMailPort(), mail.getMailName(), mail.getMailPassword(),
 						title, content, toUser);
 			}
+			return true;
 		}
 		return false;
 

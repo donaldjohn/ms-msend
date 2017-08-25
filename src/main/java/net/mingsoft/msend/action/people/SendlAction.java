@@ -25,8 +25,8 @@ import net.mingsoft.msend.util.SendUtil;
  *          创建日期：2017-8-24 14:41:18<br/>
  *          历史修订：<br/>
  */
-@Controller("peopleMailAction")
-@RequestMapping("/msend/people/mail")
+@Controller("peopleSendAction")
+@RequestMapping("/msend/people")
 public class SendlAction extends net.mingsoft.msend.action.BaseAction {
 
 	/**
