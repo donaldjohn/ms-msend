@@ -12,6 +12,7 @@ import com.mingsoft.util.StringUtil;
 import net.mingsoft.basic.util.BasicUtil;
 import net.mingsoft.basic.util.SpringUtil;
 import net.mingsoft.msend.biz.IMailBiz;
+import net.mingsoft.msend.biz.ISmsBiz;
 import net.mingsoft.msend.biz.ITemplateBiz;
 import net.mingsoft.msend.constant.e.MailEnum;
 import net.mingsoft.msend.constant.e.SendEnum;
@@ -43,6 +44,10 @@ public class SendUtil {
 		template.setTemplateCode(code);
 		template.setAppId(BasicUtil.getAppId());
 		template = (TemplateEntity) templateBiz.getEntity(template);
+		if (template == null) {
+			LOG.error("模板不存在");
+			return false;
+		}
 		String mailContent = template.getTemplateMail();
 		if (template.getTemplateId() > 0) {
 
@@ -64,9 +69,10 @@ public class SendUtil {
 		}
 
 		if (type.equalsIgnoreCase(SendEnum.MAIL.toString())) {
-			return SendUtil.sendMail(MailEnum.HTML, template.getTemplateTitle(), mailContent, receive.split(","));
+			return SendUtil.sendMail(MailEnum.HTML, template.getTemplateTitle(), mailContent, receive.split(","),
+					template);
 		} else if (type.equalsIgnoreCase(SendEnum.SMS.toString())) {
-			return SendUtil.sendSms(code, receive, values);
+			return SendUtil.sendSms(code, receive, values, template);
 		}
 		return true;
 	}
@@ -82,8 +88,10 @@ public class SendUtil {
 	 *            内容
 	 * @param toUser
 	 *            接收用户
+	 * @param template
 	 */
-	public static boolean sendMail(MailEnum mailType, String title, String content, String[] toUser) {
+	private static boolean sendMail(MailEnum mailType, String title, String content, String[] toUser,
+			TemplateEntity template) {
 		IMailBiz mailBiz = (IMailBiz) SpringUtil.getBean(IMailBiz.class);
 		MailEntity mail = (MailEntity) mailBiz.getEntity(BasicUtil.getAppId());
 		if (mail == null) {
@@ -123,39 +131,42 @@ public class SendUtil {
 	 * 
 	 * @param code
 	 *            模块编号，
-	 * @param phone 接收手机号，多个手机号逗号隔开
+	 * @param phone
+	 *            接收手机号，多个手机号逗号隔开
 	 * @param values
 	 *            根据values.key值替换替换模版里面内容的{key/}，
+	 * @param template 模板内容
 	 */
-	public static boolean sendSms(String code, String phone, Map<String, String> values) {
-		IMailBiz mailBiz = (IMailBiz) SpringUtil.getBean(IMailBiz.class);
-		SmsEntity sms = (SmsEntity) mailBiz.getEntity(BasicUtil.getAppId());
-		ITemplateBiz templateBiz = (ITemplateBiz) SpringUtil.getBean(ITemplateBiz.class);
-		TemplateEntity template = new TemplateEntity();
-		template.setTemplateCode(code);
-		template.setAppId(BasicUtil.getAppId());
-		template = (TemplateEntity) templateBiz.getEntity(template);
-		if (template.getTemplateId() > 0) {
-			String content = template.getTemplateSms();
-			if (values != null) {
-				Iterator it = values.keySet().iterator();
-				while (it.hasNext()) {
-					String key = it.next() + "";
-					if (values.get(key) instanceof String) {
-						content = content.replaceAll("\\{" + key + "/\\}", values.get(key));
-					}
-				}
+	private static boolean sendSms(String code, String phone, Map<String, String> values, TemplateEntity template) {
+		ISmsBiz smsBiz = (ISmsBiz) SpringUtil.getBean(ISmsBiz.class);
+		SmsEntity sms = (SmsEntity) smsBiz.getEntity(BasicUtil.getAppId());
+		
+		if (sms.getSmsType().equals(ThridEnum.SENDCLOUD.toString())) {
+			String templateId = template.getTemplateSms();
+			if(!StringUtil.isInteger(templateId)) {
+				LOG.error("sendcloud 的模板id不正确");
+				return false;
 			}
-			LOG.debug(code + "send sms to:" + phone + " content:" + content);
+			LOG.debug(code + "send sms to:" + phone + " 模板ID:" + templateId);
 			try {
-				return SendcloudUtil.sendSms(sms.getSmsUsername(), sms.getSmsPassword(), 1, "0",phone,JSONArray.toJSONString(values));
+				return SendcloudUtil.sendSms(sms.getSmsUsername(), sms.getSmsPassword(), Integer.parseInt(templateId), "0", phone,
+						JSONArray.toJSONString(values));
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
-			return false;
-		} else {
-			LOG.debug("code is no exists");
-			return false;
+			}	
+		} else { //普通通过post 地址的方式请求
+//			if (values != null) {
+//			Iterator it = values.keySet().iterator();
+//			while (it.hasNext()) {
+//				String key = it.next() + "";
+//				if (values.get(key) instanceof String) {
+//					content = content.replaceAll("\\{" + key + "/\\}", values.get(key));
+//				}
+//			}
+//		}			
 		}
+
+
+		return false;
 	}
 }

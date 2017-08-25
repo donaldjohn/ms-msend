@@ -65,16 +65,14 @@ public class SendlAction extends net.mingsoft.msend.action.BaseAction {
 
 		String _modelCode = this.decryptByAES(request, modelCode);
 		// 将邮箱地址压如String数组
-
+		if (_modelCode == null) {
+			this.outJson(response, ModelCode.SEND, false,
+					this.getResString("err.error", this.getResString("model.code")));
+			return;
+		}
 		Map params = JsonUtil.getJsonToObject(content, Map.class);
 		// 发送邮箱
 		boolean status = SendUtil.send(_modelCode, receive, params, type);
-		if (status) {
-			// 返回操作成功信息
-			this.outJson(response, null, true);
-		} else {
-			// 返回操作成功信息
-			this.outJson(response, null, false);
-		}
+		this.outJson(response, null, status);
 	}
 }

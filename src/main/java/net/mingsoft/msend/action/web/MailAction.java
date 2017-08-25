@@ -31,7 +31,7 @@ import net.mingsoft.basic.util.BasicUtil;
  * 创建日期：2017-8-24 14:41:18<br/>
  * 历史修订：<br/>
  */
-@Controller("webMailAction")
+@Controller("msendWebMailAction")
 @RequestMapping("/msend/mail")
 public class MailAction extends net.mingsoft.msend.action.BaseAction{
 	

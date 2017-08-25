@@ -23,40 +23,31 @@ package net.mingsoft.msend.util;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import org.activiti.engine.impl.json.JsonObjectConverter;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.config.RequestConfig.Builder;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * 铭飞MS平台-邮件模块
@@ -92,8 +83,8 @@ public class SendcloudUtil {
 	 *            内容
 	 * @throws IOException
 	 */
-	public static boolean sendMail(String apiUser, String apiKey, String from, String fromName, String to, String subject,
-			String content) throws IOException {
+	public static boolean sendMail(String apiUser, String apiKey, String from, String fromName, String to,
+			String subject, String content) throws IOException {
 		final String url = "http://sendcloud.sohu.com/webapi/mail.send.json";
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httpost = new HttpPost(url);
@@ -126,18 +117,26 @@ public class SendcloudUtil {
 
 	/**
 	 * sendcloud发送
-	 * @param smsUser 用户
-	 * @param smsKey key
-	 * @param templateId 模板
-	 * @param msgType 0短信 1彩信
-	 * @param phone 接收手机号，多个用逗号分隔
-	 * @param vars 需要替换的内容 json 
+	 * 
+	 * @param smsUser
+	 *            用户
+	 * @param smsKey
+	 *            key
+	 * @param templateId
+	 *            模板
+	 * @param msgType
+	 *            0短信 1彩信
+	 * @param phone
+	 *            接收手机号，多个用逗号分隔
+	 * @param vars
+	 *            需要替换的内容 json
 	 * @throws IOException
 	 */
-	public static boolean sendSms(String smsUser, String smsKey, int templateId, String msgType, String phone,String vars) throws IOException {
+	public static boolean sendSms(String smsUser, String smsKey, int templateId, String msgType, String phone,
+			String vars) throws IOException {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("smsUser", smsUser);
-		params.put("templateId", templateId+"");
+		params.put("templateId", templateId + "");
 		params.put("msgType", msgType);
 		params.put("phone", phone);
 		params.put("vars", vars);
@@ -164,7 +163,7 @@ public class SendcloudUtil {
 		Object postparams = new ArrayList();
 		Iterator<String> iterator = sortedMap.keySet().iterator();
 		while (iterator.hasNext()) {
-			String key = (String) iter.next();
+			String key = (String) iterator.next();
 			String value = params.get(key);
 			((List) postparams).add(new BasicNameValuePair(key, value));
 		}
@@ -179,14 +178,62 @@ public class SendcloudUtil {
 			CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(requestConfig).build();
 			HttpResponse response = httpClient.execute(httpPost);
 			HttpEntity entity = response.getEntity();
-			EntityUtils.consume(entity);
-			return true;
+			String str = EntityUtils.toString(entity);
+			ResponseData rd = JSON.parseObject(str, ResponseData.class);
+			LOG.debug(rd);
+			return rd.getResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			httpPost.releaseConnection();
 		}
 		return false;
+	}
+
+
+}
+
+class ResponseData {
+
+	public boolean result;
+	public int statusCode;
+	public String message;
+	public String info;
+
+	public String toString() {
+		return JSONObject.toJSONString(this);
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public boolean getResult() {
+		return result;
+	}
+
+	public void setResult(boolean result) {
+		this.result = result;
+	}
+
+	public int getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(int statusCode) {
+		this.statusCode = statusCode;
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
 	}
 
 }
