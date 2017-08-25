@@ -25,25 +25,34 @@ import com.mingsoft.base.constant.e.BaseEnum;
 
 
 public enum SendEnum implements BaseEnum {
-	MAIL("mail"),SMS("sms");
+	MAIL(0,"mail"),SMS(1,"sms");
 	
 	/**
 	 * 枚举类型
 	 */
 	Object code;
+	
+	int id;
 
 	/**
 	 * 构造方法
 	 * @param code 传入的枚举类型
 	 */
-	SendEnum(Object code) {
+	SendEnum(int id,Object code) {
 		this.code = code;
+		this.id = id;
 	}
 
 	@Override
 	public int toInt() {
 		// TODO Auto-generated method stub
-		return Integer.parseInt(this.code.toString());
+		return id;
 	}
 
+	@Override
+	public String toString() {
+		return this.code.toString();
+	}
+	
+	
 }

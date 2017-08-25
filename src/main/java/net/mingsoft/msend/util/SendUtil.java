@@ -1,6 +1,7 @@
 package net.mingsoft.msend.util;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -11,12 +12,14 @@ import com.mingsoft.util.StringUtil;
 
 import net.mingsoft.basic.util.BasicUtil;
 import net.mingsoft.basic.util.SpringUtil;
+import net.mingsoft.msend.biz.ILogBiz;
 import net.mingsoft.msend.biz.IMailBiz;
 import net.mingsoft.msend.biz.ISmsBiz;
 import net.mingsoft.msend.biz.ITemplateBiz;
 import net.mingsoft.msend.constant.e.MailEnum;
 import net.mingsoft.msend.constant.e.SendEnum;
 import net.mingsoft.msend.constant.e.ThridEnum;
+import net.mingsoft.msend.entity.LogEntity;
 import net.mingsoft.msend.entity.MailEntity;
 import net.mingsoft.msend.entity.SmsEntity;
 import net.mingsoft.msend.entity.TemplateEntity;
@@ -135,37 +138,56 @@ public class SendUtil {
 	 *            接收手机号，多个手机号逗号隔开
 	 * @param values
 	 *            根据values.key值替换替换模版里面内容的{key/}，
-	 * @param template 模板内容
+	 * @param template
+	 *            模板内容
 	 */
 	private static boolean sendSms(String code, String phone, Map<String, String> values, TemplateEntity template) {
 		ISmsBiz smsBiz = (ISmsBiz) SpringUtil.getBean(ISmsBiz.class);
+		ILogBiz logBiz = (ILogBiz) SpringUtil.getBean(ILogBiz.class);
 		SmsEntity sms = (SmsEntity) smsBiz.getEntity(BasicUtil.getAppId());
-		
+
 		if (sms.getSmsType().equals(ThridEnum.SENDCLOUD.toString())) {
 			String templateId = template.getTemplateSms();
-			if(!StringUtil.isInteger(templateId)) {
+			if (!StringUtil.isInteger(templateId)) {
 				LOG.error("sendcloud 的模板id不正确");
 				return false;
 			}
 			LOG.debug(code + "send sms to:" + phone + " 模板ID:" + templateId);
 			try {
-				return SendcloudUtil.sendSms(sms.getSmsUsername(), sms.getSmsPassword(), Integer.parseInt(templateId), "0", phone,
-						JSONArray.toJSONString(values));
+				boolean flag = false;
+				String[] phones = phone.split(",");
+				for (int i = 0; i < phones.length; i++) {
+					flag = SendcloudUtil.sendSms(sms.getSmsUsername(), sms.getSmsPassword(),
+							Integer.parseInt(templateId), "0", phones[i], JSONArray.toJSONString(values));
+					if (flag) {
+						LogEntity log = new LogEntity();
+						log.setAppId(BasicUtil.getAppId());
+						log.setLogType(SendEnum.SMS.toInt());
+						log.setLogDatetime(new Date());
+						log.setLogContent("模板编号:" + templateId);
+						log.setLogReceive(phones[i]);
+						logBiz.saveEntity(log);
+					} else {
+						LOG.error("发送失败：" +  phones[i]);
+						break;
+					}
+				}
+				return flag;
 			} catch (IOException e) {
 				e.printStackTrace();
-			}	
-		} else { //普通通过post 地址的方式请求
-//			if (values != null) {
-//			Iterator it = values.keySet().iterator();
-//			while (it.hasNext()) {
-//				String key = it.next() + "";
-//				if (values.get(key) instanceof String) {
-//					content = content.replaceAll("\\{" + key + "/\\}", values.get(key));
-//				}
-//			}
-//		}			
+			}
+		} else { // 普通通过post 地址的方式请求
+			// if (values != null) {
+			// Iterator it = values.keySet().iterator();
+			// while (it.hasNext()) {
+			// String key = it.next() + "";
+			// if (values.get(key) instanceof String) {
+			// content = content.replaceAll("\\{" + key + "/\\}",
+			// values.get(key));
+			// }
+			// }
+			// }
 		}
-
 
 		return false;
 	}

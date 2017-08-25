@@ -1,4 +1,4 @@
-package net.mingsoft.msend.action.web;
+package net.mingsoft.msend.action.people;
 
 import java.util.Map;
 
@@ -25,8 +25,8 @@ import net.mingsoft.msend.util.SendUtil;
  *          创建日期：2017-8-24 14:41:18<br/>
  *          历史修订：<br/>
  */
-@Controller("webMailAction")
-@RequestMapping("/msend/mail")
+@Controller("peopleMailAction")
+@RequestMapping("/msend/people/mail")
 public class SendlAction extends net.mingsoft.msend.action.BaseAction {
 
 	/**
@@ -54,8 +54,7 @@ public class SendlAction extends net.mingsoft.msend.action.BaseAction {
 		String modelCode = request.getParameter("modelCode");
 		String content = request.getParameter("content");
 		String type = request.getParameter("type");
-		String[] user = null;
-
+		
 		// 验证模块编码是否为空
 		if (StringUtil.isBlank(modelCode)) {
 			this.outJson(response, ModelCode.SEND, false,
