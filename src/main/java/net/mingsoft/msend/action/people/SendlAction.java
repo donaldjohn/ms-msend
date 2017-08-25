@@ -69,15 +69,15 @@ public class SendlAction extends net.mingsoft.msend.action.BaseAction {
 					this.getResString("err.error", this.getResString("model.code")));
 			return;
 		}
+		Map params = null;
 		try {
-			
+			params = JsonUtil.getJsonToObject(content, Map.class);
 		} catch (Exception e) {
 			LOG.error("content 参数不正确");
 			this.outJson(response, ModelCode.SEND, false,
 					this.getResString("err.error", "content"));
 			return;
 		}
-		Map params = JsonUtil.getJsonToObject(content, Map.class);
 		// 发送邮箱
 		boolean status = SendUtil.send(_modelCode, receive, params, type);
 		this.outJson(response, null, status);
