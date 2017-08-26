@@ -49,6 +49,18 @@ import org.apache.log4j.Logger;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+
 /**
  * 铭飞MS平台-邮件模块
  * 
@@ -134,60 +146,119 @@ public class SendcloudUtil {
 	 */
 	public static boolean sendSms(String smsUser, String smsKey, int templateId, String msgType, String phone,
 			String vars) throws IOException {
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("smsUser", smsUser);
-		params.put("templateId", templateId + "");
-		params.put("msgType", msgType);
-		params.put("phone", phone);
-		params.put("vars", vars);
+		
+		String url = "http://www.sendcloud.net/smsapi/send";
 
-		Map sortedMap = new TreeMap(new Comparator() {
-			@Override
-			public int compare(Object arg0, Object arg1) {
-				return arg0.toString().compareToIgnoreCase(arg1.toString());
-			}
-		});
-		sortedMap.putAll(params);
+        // 填充参数
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("smsUser", smsUser);
+        params.put("templateId", templateId+"");
+        params.put("msgType", "0");
+        params.put("phone", phone);
+        params.put("vars", vars);
+//        params.put("vars", "{\"appointmentPhone\":\"18979833333\",\"appointmentTime\":1504108800000,\"appointmentName\":\"xx\",\"appointmentCarNo\":\"asdas\",\"appointmentType\":0}");
+        
+        // 对参数进行排序
+        Map<String, String> sortedMap = new TreeMap<String, String>(new Comparator<String>() {
+            public int compare(String arg0, String arg1) {
+                // 忽略大小写
+                return arg0.compareToIgnoreCase(arg1); 
+            }
+        });
+        sortedMap.putAll(params);
 
-		StringBuilder sb = new StringBuilder();
-		sb.append(smsKey).append("&");
-		Iterator<String> iter = sortedMap.keySet().iterator();
-		while (iter.hasNext()) {
-			String key = (String) iter.next();
-			String value = params.get(key);
-			sb.append(String.format("%s=%s&", new Object[] { key, value }));
-		}
-		sb.append(smsKey);
-		String sig = DigestUtils.md5Hex(sb.toString());
+        // 计算签名
+        StringBuilder sb = new StringBuilder();
+        sb.append(smsKey).append("&");
+        for (String s : sortedMap.keySet()) {
+            sb.append(String.format("%s=%s&", s, sortedMap.get(s)));
+        }
+        sb.append(smsKey);
+        String sig = DigestUtils.md5Hex(sb.toString());
 
-		Object postparams = new ArrayList();
-		Iterator<String> iterator = sortedMap.keySet().iterator();
-		while (iterator.hasNext()) {
-			String key = (String) iterator.next();
-			String value = params.get(key);
-			((List) postparams).add(new BasicNameValuePair(key, value));
-		}
-		((List) postparams).add(new BasicNameValuePair("signature", sig));
+        // 将所有参数和签名添加到post请求参数数组里
+        List<NameValuePair> postparams = new ArrayList<NameValuePair>();
+        for (String s : sortedMap.keySet()) {
+            postparams.add(new BasicNameValuePair(s, sortedMap.get(s)));
+        }
+        postparams.add(new BasicNameValuePair("signature", sig));
 
-		HttpPost httpPost = new HttpPost("http://sendcloud.sohu.com/smsapi/send");
-		try {
-			httpPost.setEntity(new UrlEncodedFormEntity((List) postparams, "utf8"));
-
-			RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(3000).setSocketTimeout(100000)
-					.build();
-			CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(requestConfig).build();
-			HttpResponse response = httpClient.execute(httpPost);
-			HttpEntity entity = response.getEntity();
-			String str = EntityUtils.toString(entity);
-			ResponseData rd = JSON.parseObject(str, ResponseData.class);
+        HttpPost httpPost = new HttpPost(url);
+        try {
+            httpPost.setEntity(new UrlEncodedFormEntity(postparams, "utf8"));
+            CloseableHttpClient httpClient;
+            RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(3000).setSocketTimeout(100000).build();
+            httpClient = HttpClients.custom().setDefaultRequestConfig(requestConfig).build();
+            HttpResponse response = httpClient.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            ResponseData rd = JSON.parseObject(EntityUtils.toString(entity), ResponseData.class);
 			LOG.debug(rd);
 			return rd.getResult();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			httpPost.releaseConnection();
-		}
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        } finally {
+            httpPost.releaseConnection();
+        }
+		
 		return false;
+		
+		
+		
+//		
+//		Map<String, String> params = new HashMap<String, String>();
+//		params.put("smsUser", smsUser);
+//		params.put("templateId", templateId + "");
+//		params.put("msgType", msgType);
+//		params.put("phone", phone);
+//		params.put("vars", vars);
+//
+//		Map sortedMap = new TreeMap(new Comparator() {
+//			@Override
+//			public int compare(Object arg0, Object arg1) {
+//				return arg0.toString().compareToIgnoreCase(arg1.toString());
+//			}
+//		});
+//		sortedMap.putAll(params);
+//
+//		StringBuilder sb = new StringBuilder();
+//		sb.append(smsKey).append("&");
+//		Iterator<String> iter = sortedMap.keySet().iterator();
+//		while (iter.hasNext()) {
+//			String key = (String) iter.next();
+//			String value = params.get(key);
+//			sb.append(String.format("%s=%s&", new Object[] { key, value }));
+//		}
+//		sb.append(smsKey);
+//		String sig = DigestUtils.md5Hex(sb.toString());
+//
+//		Object postparams = new ArrayList();
+//		Iterator<String> iterator = sortedMap.keySet().iterator();
+//		while (iterator.hasNext()) {
+//			String key = (String) iterator.next();
+//			String value = params.get(key);
+//			((List) postparams).add(new BasicNameValuePair(key, value));
+//		}
+//		((List) postparams).add(new BasicNameValuePair("signature", sig));
+//
+//		HttpPost httpPost = new HttpPost("http://sendcloud.sohu.com/smsapi/send");
+//		try {
+//			httpPost.setEntity(new UrlEncodedFormEntity((List) postparams, "utf8"));
+//
+//			RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(3000).setSocketTimeout(100000)
+//					.build();
+//			CloseableHttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(requestConfig).build();
+//			HttpResponse response = httpClient.execute(httpPost);
+//			HttpEntity entity = response.getEntity();
+//			String str = EntityUtils.toString(entity);
+//			ResponseData rd = JSON.parseObject(str, ResponseData.class);
+//			LOG.debug(rd);
+//			return rd.getResult();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			httpPost.releaseConnection();
+//		}
+//		return false;
 	}
 
 
