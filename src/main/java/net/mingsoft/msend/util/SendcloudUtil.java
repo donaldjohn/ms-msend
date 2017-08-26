@@ -183,6 +183,7 @@ public class SendcloudUtil {
         }
         postparams.add(new BasicNameValuePair("signature", sig));
 
+        LOG.debug(JSONObject.toJSONString(postparams));
         HttpPost httpPost = new HttpPost(url);
         try {
             httpPost.setEntity(new UrlEncodedFormEntity(postparams, "utf8"));
