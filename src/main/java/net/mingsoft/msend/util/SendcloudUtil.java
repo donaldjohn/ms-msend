@@ -174,6 +174,7 @@ public class SendcloudUtil {
             sb.append(String.format("%s=%s&", s, sortedMap.get(s)));
         }
         sb.append(smsKey);
+        LOG.debug("sign_str:"+sb.toString());
         String sig = DigestUtils.md5Hex(sb.toString());
 
         // 将所有参数和签名添加到post请求参数数组里
