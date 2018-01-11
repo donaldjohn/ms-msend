@@ -91,7 +91,7 @@
 		<where>
 				<if test="modelId != null"> and model_id=#{modelId} </if>				
 				<if test="appId != null"> and app_id=#{appId} </if>				
-				<if test="templateTitle != null and templateTitle != ''"> and template_title=#{templateTitle} </if>				
+				<if test="templateTitle != null and templateTitle != ''"> and template_title like CONCAT('%',#{templateTitle},'%') </if>				
 				<if test="templateMail != null and templateMail != ''"> and template_mail=#{templateMail} </if>				
 				<if test="templateSms != null and templateSms != ''"> and template_sms=#{templateSms} </if>				
 				<if test="templateCode != null and templateCode != ''"> and template_code=#{templateCode} </if>				

@@ -1,10 +1,14 @@
 package net.mingsoft.msend.action;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -97,11 +101,8 @@ public class SmsAction extends net.mingsoft.msend.action.BaseAction{
 	 */
 	@RequestMapping("/form")
 	public String form(@ModelAttribute SmsEntity sms,HttpServletResponse response,HttpServletRequest request,ModelMap model){
-		if(sms.getAppId() != null){
-			BaseEntity smsEntity = smsBiz.getEntity(sms.getAppId());			
-			model.addAttribute("smsEntity",smsEntity);
-		}
-		
+		BaseEntity smsEntity = smsBiz.getEntity(BasicUtil.getAppId());			
+		model.addAttribute("smsEntity",smsEntity);
 		return view ("/msend/sms/form");
 	}
 	
@@ -170,7 +171,8 @@ public class SmsAction extends net.mingsoft.msend.action.BaseAction{
 	 */
 	@PostMapping("/save")
 	@ResponseBody
-	public void save(@ModelAttribute SmsEntity sms, HttpServletResponse response, HttpServletRequest request) {
+	@RequiresPermissions("sms:save")
+	public void save(@ModelAttribute SmsEntity sms, HttpServletResponse response, HttpServletRequest request,BindingResult result) {
 		//验证短信接口类型的值是否合法			
 		if(StringUtil.isBlank(sms.getSmsType())){
 			this.outJson(response, null,false,getResString("err.empty", this.getResString("sms.type")));
@@ -178,15 +180,6 @@ public class SmsAction extends net.mingsoft.msend.action.BaseAction{
 		}
 		if(!StringUtil.checkLength(sms.getSmsType()+"", 1, 150)){
 			this.outJson(response, null, false, getResString("err.length", this.getResString("sms.type"), "1", "150"));
-			return;			
-		}
-		//验证短信平台后台管理地址的值是否合法			
-		if(StringUtil.isBlank(sms.getSmsManagerUrl())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("sms.manager.url")));
-			return;			
-		}
-		if(!StringUtil.checkLength(sms.getSmsManagerUrl()+"", 1, 120)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("sms.manager.url"), "1", "120"));
 			return;			
 		}
 		//验证0启用 1禁用的值是否合法			
@@ -198,6 +191,7 @@ public class SmsAction extends net.mingsoft.msend.action.BaseAction{
 			this.outJson(response, null, false, getResString("err.length", this.getResString("sms.enable"), "1", "10"));
 			return;			
 		}
+		sms.setAppId(BasicUtil.getAppId());
 		smsBiz.saveEntity(sms);
 		this.outJson(response, JSONObject.toJSONString(sms));
 	}
@@ -215,6 +209,7 @@ public class SmsAction extends net.mingsoft.msend.action.BaseAction{
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
+	@RequiresPermissions("sms:del")
 	public void delete(@RequestBody List<SmsEntity> smss,HttpServletResponse response, HttpServletRequest request) {
 		int[] ids = new int[smss.size()];
 		for(int i = 0;i<smss.size();i++){
@@ -251,7 +246,8 @@ public class SmsAction extends net.mingsoft.msend.action.BaseAction{
 	 * }</dd><br/>
 	 */
 	@PostMapping("/update")
-	@ResponseBody	 
+	@ResponseBody
+	@RequiresPermissions("sms:update")
 	public void update(@ModelAttribute SmsEntity sms, HttpServletResponse response,
 			HttpServletRequest request) {
 		//验证短信接口类型的值是否合法			
@@ -261,15 +257,6 @@ public class SmsAction extends net.mingsoft.msend.action.BaseAction{
 		}
 		if(!StringUtil.checkLength(sms.getSmsType()+"", 1, 150)){
 			this.outJson(response, null, false, getResString("err.length", this.getResString("sms.type"), "1", "150"));
-			return;			
-		}
-		//验证短信平台后台管理地址的值是否合法			
-		if(StringUtil.isBlank(sms.getSmsManagerUrl())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("sms.manager.url")));
-			return;			
-		}
-		if(!StringUtil.checkLength(sms.getSmsManagerUrl()+"", 1, 120)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("sms.manager.url"), "1", "120"));
 			return;			
 		}
 		//验证0启用 1禁用的值是否合法			

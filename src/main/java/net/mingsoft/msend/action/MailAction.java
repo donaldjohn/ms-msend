@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,6 +22,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import net.mingsoft.msend.biz.IMailBiz;
 import net.mingsoft.msend.entity.MailEntity;
+import net.mingsoft.msend.upgarde.SendUpgarde;
 import net.mingsoft.base.util.JSONObject;
 import com.mingsoft.util.PageUtil;
 import com.mingsoft.util.StringUtil;
@@ -97,11 +100,8 @@ public class MailAction extends net.mingsoft.msend.action.BaseAction{
 	 */
 	@RequestMapping("/form")
 	public String form(@ModelAttribute MailEntity mail,HttpServletResponse response,HttpServletRequest request,ModelMap model){
-		if(mail.getAppId() != null){
-			BaseEntity mailEntity = mailBiz.getEntity(mail.getAppId());			
-			model.addAttribute("mailEntity",mailEntity);
-		}
-		
+		BaseEntity mailEntity = mailBiz.getEntity(mail.getAppId());			
+		model.addAttribute("mailEntity",mailEntity);
 		return view ("/msend/mail/form");
 	}
 	
@@ -170,7 +170,8 @@ public class MailAction extends net.mingsoft.msend.action.BaseAction{
 	 */
 	@PostMapping("/save")
 	@ResponseBody
-	public void save(@ModelAttribute MailEntity mail, HttpServletResponse response, HttpServletRequest request) {
+	@RequiresPermissions("mail:save")
+	public void save(@ModelAttribute MailEntity mail, HttpServletResponse response, HttpServletRequest request,BindingResult result) {
 		//验证邮件类型的值是否合法			
 		if(StringUtil.isBlank(mail.getMailType())){
 			this.outJson(response, null,false,getResString("err.empty", this.getResString("mail.type")));
@@ -224,6 +225,7 @@ public class MailAction extends net.mingsoft.msend.action.BaseAction{
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
+	@RequiresPermissions("mail:del")
 	public void delete(@RequestBody List<MailEntity> mails,HttpServletResponse response, HttpServletRequest request) {
 		int[] ids = new int[mails.size()];
 		for(int i = 0;i<mails.size();i++){
@@ -261,6 +263,7 @@ public class MailAction extends net.mingsoft.msend.action.BaseAction{
 	 */
 	@PostMapping("/update")
 	@ResponseBody	 
+	@RequiresPermissions("mail:update")
 	public void update(@ModelAttribute MailEntity mail, HttpServletResponse response,
 			HttpServletRequest request) {
 		//验证邮件类型的值是否合法			

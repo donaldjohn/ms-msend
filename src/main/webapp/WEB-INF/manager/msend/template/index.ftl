@@ -1,18 +1,17 @@
 <@ms.html5>
-	<@ms.nav title="发送消息模板表管理"></@ms.nav>
+	<@ms.nav title="发送消息模板管理"></@ms.nav>
 	<@ms.searchForm name="searchForm" isvalidation=true>
+	<@ms.text label="标题" name="templateTitle" value=""  width="240px;" placeholder="请输入标题" validation={"maxlength":"50","data-bv-stringlength-message":"标题长度不能超过五十个字符长度!"}/>
 			<@ms.searchFormButton>
 				 <@ms.queryButton onclick="search()"/> 
 			</@ms.searchFormButton>			
 	</@ms.searchForm>
 	<@ms.panel>
 		<div id="toolbar">
-			<@ms.panelNav>
-				<@ms.buttonGroup>
-					<@ms.addButton id="addTemplateBtn"/>
-					<@ms.delButton id="delTemplateBtn"/>
-				</@ms.buttonGroup>
-			</@ms.panelNav>
+			<@ms.panelNavBtnGroup>
+				<@shiro.hasPermission name="SendTemplate:save"><@ms.panelNavBtnAdd id="addTemplateBtn" title=""/></@shiro.hasPermission> 
+				<@shiro.hasPermission name="sendTemplate:del"><@ms.panelNavBtnDel id="delTemplateBtn" title=""/></@shiro.hasPermission> 
+			</@ms.panelNavBtnGroup>
 		</div>
 		<table id="templateList" 
 			data-show-refresh="true"
@@ -25,8 +24,8 @@
 		</table>
 	</@ms.panel>
 	
-	<@ms.modal  modalName="delTemplate" title="授权数据删除" >
-		<@ms.modalBody>删除此授权
+	<@ms.modal  modalName="delTemplate" title="消息模板数据删除" >
+		<@ms.modalBody>删除此消息模板
 			<@ms.modalButton>
 				<!--模态框按钮组-->
 				<@ms.button  value="确认删除？"  id="deleteTemplateBtn"  />
@@ -44,69 +43,28 @@
 			toolbar: "#toolbar",
 	    	columns: [{ checkbox: true},
 				    	{
-				        	field: 'templateId',
-				        	title: '编号',
-				        	width:'10',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/msend/template/form.do?templateId="+row.templateId;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
-				        	field: 'modelId',
-				        	title: '模块编号',
-				        	width:'10',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/msend/template/form.do?modelId="+row.modelId;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
-				        	field: 'appId',
-				        	title: '应用编号',
-				        	width:'10',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/msend/template/form.do?appId="+row.appId;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
 				        	field: 'templateTitle',
 				        	title: '标题',
 				        	width:'100',
 				        	align: 'center',
 				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/msend/template/form.do?templateTitle="+row.templateTitle;
+				        		var url = "${managerPath}/msend/template/form.do?templateId="+row.templateId;
 				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
 				        	}
-				    	},							    	{
-				        	field: 'templateMail',
-				        	title: '',
-				        	width:'1,000',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/msend/template/form.do?templateMail="+row.templateMail;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
-				        	field: 'templateSms',
-				        	title: '',
-				        	width:'1,000',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/msend/template/form.do?templateSms="+row.templateSms;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
+				    	},	{
 				        	field: 'templateCode',
 				        	title: '邮件模块代码',
-				        	width:'20',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/msend/template/form.do?templateCode="+row.templateCode;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	}			]
+				        	width:'60',
+				        	align: 'center'
+				    	},	{
+				        	field: 'templateMail',
+				        	title: '邮件内容',
+				        	width:'200',
+				    	},	{
+				        	field: 'templateSms',
+				        	title: '消息内容',
+				        	width:'200',
+				    	}		]
 	    })
 	})
 	//增加按钮

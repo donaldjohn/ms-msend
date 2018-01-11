@@ -1,10 +1,15 @@
 package net.mingsoft.msend.action;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,6 +25,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import net.mingsoft.msend.biz.ITemplateBiz;
 import net.mingsoft.msend.entity.TemplateEntity;
+import net.mingsoft.msend.util.SendUtil;
 import net.mingsoft.base.util.JSONObject;
 import com.mingsoft.util.PageUtil;
 import com.mingsoft.util.StringUtil;
@@ -83,6 +89,10 @@ public class TemplateAction extends net.mingsoft.msend.action.BaseAction{
 	@RequestMapping("/list")
 	@ResponseBody
 	public void list(@ModelAttribute TemplateEntity template,HttpServletResponse response, HttpServletRequest request,ModelMap model) {
+		if(template == null){
+			template = new TemplateEntity();
+		}
+		template.setAppId(BasicUtil.getAppId());
 		BasicUtil.startPage();
 		List templateList = templateBiz.query(template);
 		this.outJson(response, net.mingsoft.base.util.JSONArray.toJSONString(new EUListBean(templateList,(int)BasicUtil.endPage(templateList).getTotal()),new DoubleValueFilter(),new DateValueFilter()));
@@ -97,7 +107,6 @@ public class TemplateAction extends net.mingsoft.msend.action.BaseAction{
 			BaseEntity templateEntity = templateBiz.getEntity(template.getTemplateId());			
 			model.addAttribute("templateEntity",templateEntity);
 		}
-		
 		return view ("/msend/template/form");
 	}
 	
@@ -158,26 +167,14 @@ public class TemplateAction extends net.mingsoft.msend.action.BaseAction{
 	 */
 	@PostMapping("/save")
 	@ResponseBody
-	public void save(@ModelAttribute TemplateEntity template, HttpServletResponse response, HttpServletRequest request) {
-		//验证模块编号的值是否合法			
-		if(StringUtil.isBlank(template.getModelId())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("model.id")));
+	@RequiresPermissions("sendTemplate:save")
+	public void save(@ModelAttribute TemplateEntity template, HttpServletResponse response, HttpServletRequest request,BindingResult result) {
+		//验证标题是否合法			
+		if(StringUtil.isBlank(template.getTemplateTitle())){
+			this.outJson(response, null,false,getResString("err.empty", this.getResString("template.title")));
 			return;			
 		}
-		if(!StringUtil.checkLength(template.getModelId()+"", 1, 10)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("model.id"), "1", "10"));
-			return;			
-		}
-		//验证的值是否合法			
-		if(StringUtil.isBlank(template.getTemplateMail())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("template.mail")));
-			return;			
-		}
-		//验证的值是否合法			
-		if(StringUtil.isBlank(template.getTemplateSms())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("template.sms")));
-			return;			
-		}
+		template.setAppId(BasicUtil.getAppId());
 		templateBiz.saveEntity(template);
 		this.outJson(response, JSONObject.toJSONString(template));
 	}
@@ -195,6 +192,7 @@ public class TemplateAction extends net.mingsoft.msend.action.BaseAction{
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
+	@RequiresPermissions("sendTemplate:del")
 	public void delete(@RequestBody List<TemplateEntity> templates,HttpServletResponse response, HttpServletRequest request) {
 		int[] ids = new int[templates.size()];
 		for(int i = 0;i<templates.size();i++){
@@ -227,26 +225,13 @@ public class TemplateAction extends net.mingsoft.msend.action.BaseAction{
 	 * }</dd><br/>
 	 */
 	@PostMapping("/update")
-	@ResponseBody	 
+	@ResponseBody
+	@RequiresPermissions("sendTemplate:update")
 	public void update(@ModelAttribute TemplateEntity template, HttpServletResponse response,
 			HttpServletRequest request) {
-		//验证模块编号的值是否合法			
-		if(StringUtil.isBlank(template.getModelId())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("model.id")));
-			return;			
-		}
-		if(!StringUtil.checkLength(template.getModelId()+"", 1, 10)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("model.id"), "1", "10"));
-			return;			
-		}
-		//验证的值是否合法			
-		if(StringUtil.isBlank(template.getTemplateMail())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("template.mail")));
-			return;			
-		}
-		//验证的值是否合法			
-		if(StringUtil.isBlank(template.getTemplateSms())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("template.sms")));
+		//验证标题是否合法			
+		if(StringUtil.isBlank(template.getTemplateTitle())){
+			this.outJson(response, null,false,getResString("err.empty", this.getResString("template.title")));
 			return;			
 		}
 		templateBiz.updateEntity(template);
