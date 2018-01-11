@@ -181,24 +181,6 @@ public class MailAction extends net.mingsoft.msend.action.BaseAction{
 			this.outJson(response, null, false, getResString("err.length", this.getResString("mail.type"), "1", "255"));
 			return;			
 		}
-		//验证的值是否合法			
-		if(StringUtil.isBlank(mail.getMailForm())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("mail.form")));
-			return;			
-		}
-		if(!StringUtil.checkLength(mail.getMailForm()+"", 1, 255)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("mail.form"), "1", "255"));
-			return;			
-		}
-		//验证的值是否合法			
-		if(StringUtil.isBlank(mail.getMailFormName())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("mail.form.name")));
-			return;			
-		}
-		if(!StringUtil.checkLength(mail.getMailFormName()+"", 1, 0)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("mail.form.name"), "1", "0"));
-			return;			
-		}
 		//验证0启用 1禁用的值是否合法			
 		if(StringUtil.isBlank(mail.getMailEnable())){
 			this.outJson(response, null,false,getResString("err.empty", this.getResString("mail.enable")));
@@ -208,6 +190,7 @@ public class MailAction extends net.mingsoft.msend.action.BaseAction{
 			this.outJson(response, null, false, getResString("err.length", this.getResString("mail.enable"), "1", "10"));
 			return;			
 		}
+		mail.setAppId(BasicUtil.getAppId());
 		mailBiz.saveEntity(mail);
 		this.outJson(response, JSONObject.toJSONString(mail));
 	}
@@ -273,24 +256,6 @@ public class MailAction extends net.mingsoft.msend.action.BaseAction{
 		}
 		if(!StringUtil.checkLength(mail.getMailType()+"", 1, 255)){
 			this.outJson(response, null, false, getResString("err.length", this.getResString("mail.type"), "1", "255"));
-			return;			
-		}
-		//验证的值是否合法			
-		if(StringUtil.isBlank(mail.getMailForm())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("mail.form")));
-			return;			
-		}
-		if(!StringUtil.checkLength(mail.getMailForm()+"", 1, 255)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("mail.form"), "1", "255"));
-			return;			
-		}
-		//验证的值是否合法			
-		if(StringUtil.isBlank(mail.getMailFormName())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("mail.form.name")));
-			return;			
-		}
-		if(!StringUtil.checkLength(mail.getMailFormName()+"", 1, 0)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("mail.form.name"), "1", "0"));
 			return;			
 		}
 		//验证0启用 1禁用的值是否合法			
