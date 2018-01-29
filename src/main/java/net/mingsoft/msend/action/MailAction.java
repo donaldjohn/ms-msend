@@ -94,6 +94,10 @@ public class MailAction extends net.mingsoft.msend.action.BaseAction{
 	 */
 	@RequestMapping("/form")
 	public String form(@ModelAttribute MailEntity mail,HttpServletResponse response,HttpServletRequest request,ModelMap model){
+		if(mail == null){
+			mail = new MailEntity(); 
+		}
+		mail.setAppId(BasicUtil.getAppId());
 		BaseEntity mailEntity = mailBiz.getEntity(mail.getAppId());			
 		model.addAttribute("mailEntity",mailEntity);
 		return view ("/msend/mail/form");

@@ -18,22 +18,18 @@
     </@ms.nav>
     <@ms.panel>
     	<@ms.form name="mailForm" isvalidation=true>
-    		<@ms.hidden name="appId" value="${mailEntity.appId?default('')}"/>
-    			<@ms.text label="邮件类型" name="mailType" value="${mailEntity.mailType?default('')}"  width="240px;" placeholder="请输入邮件类型" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"邮件类型长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    			<@ms.text label="账号" name="mailName" value="${mailEntity.mailName?default('')}"  width="240px;" placeholder="请输入账号" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"账号长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+    		<@ms.hidden name="appId" value="${(mailEntity.appId)?default('')}"/>
+    			<@ms.text label="邮件类型" name="mailType" value="${(mailEntity.mailType)?default('')}"  width="240px;" placeholder="请输入邮件类型" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"邮件类型长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+    			<@ms.text label="账号" name="mailName" value="${(mailEntity.mailName)?default('')}"  width="240px;" placeholder="请输入账号" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"账号长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
     			<@ms.password name="mailPassword" label="密码"  title="" size="5" width="240"  validation={"required":"false","data-bv-stringlength":"true","data-bv-stringlength-max":"20", "maxlength":"20", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-20个字符","data-bv-regexp":"true","data-bv-regexp-regexp":'^[A-Za-z0-9_]+$',"data-bv-regexp-message":"密码只能由英文字母，数字，下划线组成!", "data-bv-notempty-message":"必填项目"}/>
-    			<@ms.text label="服务器" name="mailServer" value="${mailEntity.mailServer?default('')}"  width="240px;" placeholder="请输入服务器" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"服务器长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    			<!--
-	    			<@ms.text label="" name="mailForm" value="${mailEntity.mailForm?default('')}"  width="240px;" placeholder="请输入" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-	    			<@ms.text label="" name="mailFormName" value="${mailEntity.mailFormName?default('')}"  width="240px;" placeholder="请输入" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    			-->
+    			<@ms.text label="服务器" name="mailServer" value="${(mailEntity.mailServer)?default('')}"  width="240px;" placeholder="请输入服务器" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"服务器长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
     			<@ms.select 
     				id="mailEnable"
 				    name="mailEnable" 
-				    label="坐席类型" 
+				    label="是否启用" 
 				    width="240"  
 				    list=[{"id":0,"value":"启用"},{"id":1,"value":"禁用"}] 
-				    value="${mailEntity.mailEnable?default('')}"
+				    value="${(mailEntity.mailEnable)?default('')}"
 				    listKey="id" 
 				    listValue="value"  
 				    validation={"required":"true", "data-bv-notempty-message":"必选项目"}

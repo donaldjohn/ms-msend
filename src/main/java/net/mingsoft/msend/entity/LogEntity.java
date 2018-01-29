@@ -1,7 +1,10 @@
 package net.mingsoft.msend.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mingsoft.base.entity.BaseEntity;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
  /**
  * 发送日志实体
@@ -26,6 +29,8 @@ public class LogEntity extends BaseEntity {
 	/**
 	 * 时间
 	 */
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date logDatetime; 
 	/**
 	 * 接收内容

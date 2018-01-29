@@ -87,7 +87,7 @@
 				<if test="appId != null"> and app_id=#{appId} </if>				
 				<if test="logDatetime != null"> and log_datetime=#{logDatetime} </if>				
 				<if test="logContent != null and logContent != ''"> and log_content=#{logContent} </if>				
-				<if test="logReceive != null and logReceive != ''"> and log_receive=#{logReceive} </if>				
+				<if test="logReceive != null and logReceive != ''"> and log_receive  like CONCAT('%',#{logReceive},'%')</if>				
 				<if test="logType != null"> and log_type=#{logType} </if>				
 		</where>		
 		order by log_id desc

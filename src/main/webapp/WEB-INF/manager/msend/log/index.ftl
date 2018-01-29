@@ -1,19 +1,36 @@
 <@ms.html5>
+	<style>
+		.select2-container .select2-container--default {  
+		 	height: 34px;  
+		} 
+		.select2-container .select2-selection--single{
+			font: inherit;
+			border: 1px solid #ccc;
+		    display: block;
+		    height: 34px;
+		    padding: 2px 3px;
+    		font-size: 14px;
+    		color: rgb(85, 85, 85);
+		}
+	</style>
 	<@ms.nav title="发送日志管理"></@ms.nav>
 	<@ms.searchForm name="searchForm" isvalidation=true>
-			<@ms.searchFormButton>
-				 <@ms.queryButton onclick="search()"/> 
-			</@ms.searchFormButton>			
+		<@ms.text label="接收人" name="logReceive" value=""  width="240px;" placeholder="请输入接收人" validation={"maxlength":"50","data-bv-stringlength-message":"接收人长度不能超过五十个字符长度!"}/>
+		<@ms.select 
+			id="logType"
+		    name="logType" 
+		    label="日志类型" 
+		    width="300"  
+		    list=[{"id":1,"value":"短信"},{"id":0,"value":"邮件"}] 
+		    value=""
+		    listKey="id" 
+		    listValue="value"  
+		/>
+		<@ms.searchFormButton>
+			 <@ms.queryButton onclick="search()"/> 
+		</@ms.searchFormButton>			
 	</@ms.searchForm>
 	<@ms.panel>
-		<div id="toolbar">
-			<@ms.panelNav>
-				<@ms.buttonGroup>
-					<@ms.addButton id="addLogBtn"/>
-					<@ms.delButton id="delLogBtn"/>
-				</@ms.buttonGroup>
-			</@ms.panelNav>
-		</div>
 		<table id="logList" 
 			data-show-refresh="true"
 			data-show-columns="true"
@@ -36,67 +53,41 @@
 </@ms.html5>
 
 <script>
+	$("#logType").select2({width: "270px"});
 	$(function(){
 		$("#logList").bootstrapTable({
 			url:"${managerPath}/msend/log/list.do",
 			contentType : "application/x-www-form-urlencoded",
 			queryParamsType : "undefined",
 			toolbar: "#toolbar",
-	    	columns: [{ checkbox: true},
+	    	columns: [
 				    	{
-				        	field: 'logId',
-				        	title: '',
-				        	width:'10',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/msend/log/form.do?logId="+row.logId;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
-				        	field: 'appId',
-				        	title: '应用编号',
-				        	width:'10',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/msend/log/form.do?appId="+row.appId;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
-				        	field: 'logDatetime',
-				        	title: '时间',
-				        	width:'19',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/msend/log/form.do?logDatetime="+row.logDatetime;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
+				        	field: 'logReceive',
+				        	title: '接收人',
+				        	width:'100',
+				        	align: 'center'
+				    	},{
 				        	field: 'logContent',
 				        	title: '接收内容',
 				        	width:'255',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/msend/log/form.do?logContent="+row.logContent;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
-				        	field: 'logReceive',
-				        	title: '接收人',
-				        	width:'0',
-				        	align: 'center',
-				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/msend/log/form.do?logReceive="+row.logReceive;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
-				    	},							    	{
+				        	align: 'center'
+				    	},{
 				        	field: 'logType',
-				        	title: '日志类型0邮件1短信',
-				        	width:'10',
+				        	title: '日志类型',
+				        	width:'50',
 				        	align: 'center',
 				        	formatter:function(value,row,index) {
-				        		var url = "${managerPath}/msend/log/form.do?logType="+row.logType;
-				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
-				        	}
+				        		if(value == 1){
+				        			return "短信";
+				        		}else{
+				        			return "邮件";
+				        		}
+						     }
+				    	},{
+				        	field: 'logDatetime',
+				        	title: '时间',
+				        	width:'200',
+				        	align: 'center'
 				    	}			]
 	    })
 	})

@@ -96,7 +96,10 @@ public class SendUtil {
 	private static boolean sendMail(MailEnum mailType, String title, String content, String[] toUser,
 			TemplateEntity template) {
 		IMailBiz mailBiz = (IMailBiz) SpringUtil.getBean(IMailBiz.class);
+		ILogBiz logBiz = (ILogBiz) SpringUtil.getBean(ILogBiz.class);
 		MailEntity mail = (MailEntity) mailBiz.getEntity(BasicUtil.getAppId());
+		LogEntity log = new LogEntity();
+		log.setAppId(BasicUtil.getAppId());
 		if (mail == null) {
 			LOG.error("没有配置邮件服务器");
 			return false;
@@ -112,8 +115,18 @@ public class SendUtil {
 						}
 					}
 				}
-				return SendcloudUtil.sendMail(mail.getMailName(), mail.getMailPassword(), mail.getMailForm(),
+				boolean flag = false;
+				flag = SendcloudUtil.sendMail(mail.getMailName(), mail.getMailPassword(), mail.getMailForm(),
 						mail.getMailFormName(), _toUser, title, content);
+				if(flag){
+					log.setAppId(BasicUtil.getAppId());
+					log.setLogType(SendEnum.MAIL.toInt());
+					log.setLogDatetime(new Date());
+					log.setLogContent(content);
+					log.setLogReceive(_toUser);
+					logBiz.saveEntity(log);
+				}
+				return flag;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -124,6 +137,13 @@ public class SendUtil {
 			} else if (mailType.toInt() == MailEnum.HTML.toInt()) {
 				MailUtil.sendHtml(mail.getMailServer(), mail.getMailPort(), mail.getMailName(), mail.getMailPassword(),
 						title, content, toUser);
+			}
+			for(int i = 0; i < toUser.length ; i++){
+				log.setLogType(SendEnum.MAIL.toInt());
+				log.setLogDatetime(new Date());
+				log.setLogContent(content);
+				log.setLogReceive(toUser[i]);
+				logBiz.saveEntity(log);
 			}
 			return true;
 		}
