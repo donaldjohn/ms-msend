@@ -60,7 +60,7 @@ public class SendUtil {
 				while (it.hasNext()) {
 					String key = it.next() + "";
 					if (values.get(key) instanceof String) {
-						mailContent = mailContent.replaceAll("\\{" + key + "/\\}", values.get(key));
+						mailContent = mailContent.replaceAll("\\{" + key + "\\}", values.get(key));
 					}
 				}
 			}
@@ -203,7 +203,7 @@ public class SendUtil {
 			// while (it.hasNext()) {
 			// String key = it.next() + "";
 			// if (values.get(key) instanceof String) {
-			// content = content.replaceAll("\\{" + key + "/\\}",
+			// content = content.replaceAll("\\{" + key + "\\}",
 			// values.get(key));
 			// }
 			// }
