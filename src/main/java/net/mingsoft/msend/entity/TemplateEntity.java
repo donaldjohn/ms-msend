@@ -1,6 +1,9 @@
 package net.mingsoft.msend.entity;
 
 import com.mingsoft.base.entity.BaseEntity;
+import com.mingsoft.util.AESUtil;
+import com.mingsoft.util.StringUtil;
+
 import java.util.Date;
 
  /**
@@ -44,7 +47,21 @@ public class TemplateEntity extends BaseEntity {
 	 */
 	private String templateCode; 
 	
-		
+	/**
+	 * 邮件模块代码加密
+	 */
+	private String templateCodeAes;
+	
+	
+	public String getTemplateCodeAes() {
+		templateCodeAes = AESUtil.encrypt(this.templateCodeAes+"", StringUtil.Md5(this.getAppId()+"").substring(16));
+		return templateCodeAes;
+	}
+
+	public void setTemplateCodeAes(String templateCodeAes) {
+		this.templateCodeAes = templateCodeAes;
+	}
+
 	/**
 	 * 设置编号
 	 */

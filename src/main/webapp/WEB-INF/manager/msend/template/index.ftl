@@ -45,7 +45,7 @@
 				    	{
 				        	field: 'templateTitle',
 				        	title: '标题',
-				        	width:'100',
+				        	width:'200',
 				        	align: 'center',
 				        	formatter:function(value,row,index) {
 				        		var url = "${managerPath}/msend/template/form.do?templateId="+row.templateId;
@@ -56,14 +56,11 @@
 				        	title: '邮件模块代码',
 				        	width:'60',
 				        	align: 'center'
-				    	},	{
-				        	field: 'templateMail',
-				        	title: '邮件内容',
+				    	},{
+				        	field: 'templateCodeAes',
+				        	title: '加密邮件模块代码',
 				        	width:'200',
-				    	},	{
-				        	field: 'templateSms',
-				        	title: '消息内容',
-				        	width:'200',
+				        	align: 'center'
 				    	}		]
 	    })
 	})

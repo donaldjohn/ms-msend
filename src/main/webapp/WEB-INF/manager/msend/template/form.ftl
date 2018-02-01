@@ -7,8 +7,8 @@
     		<@ms.hidden name="templateId" value="${templateEntity.templateId?default('')}"/>
     			<@ms.text label="标题" name="templateTitle" value="${templateEntity.templateTitle?default('')}"  width="240px;" placeholder="请输入标题" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"标题长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
     			<@ms.text label="邮件模块代码" name="templateCode" value="${templateEntity.templateCode?default('')}"  width="240px;" placeholder="请输入邮件模块代码" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"邮件模块代码长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    			<@ms.textarea colSm="2" name="templateMail" label="邮件内容" wrap="Soft" rows="5"  size="" width="500px;" value="${templateEntity.templateMail?default('')}" placeholder="请输入邮件内容" validation={"maxlength":"1000","data-bv-stringlength-message":"邮件内容长度不能超过1000个字符长度!" }/>
-    			<@ms.textarea colSm="2" name="templateSms" label="消息内容" wrap="Soft" rows="5"  size="" width="500px;" value="${templateEntity.templateSms?default('')}" placeholder="请输入消息内容" validation={"maxlength":"1000","data-bv-stringlength-message":"消息内容长度不能超过1000个字符长度!"}/>
+    			<@ms.textarea colSm="2" name="templateMail" label="邮件内容" wrap="Soft" rows="5"  size="" width="500px;" value="${templateEntity.templateMail?default('')}" placeholder="请输入邮件内容" validation={"maxlength":"10000","data-bv-stringlength-message":"邮件内容长度不能超过10000个字符长度!" }/>
+    			<@ms.textarea colSm="2" name="templateSms" label="消息内容" wrap="Soft" rows="5"  size="" width="500px;" value="${templateEntity.templateSms?default('')}" placeholder="请输入消息内容" validation={"maxlength":"10000","data-bv-stringlength-message":"消息内容长度不能超过10000个字符长度!"}/>
     	</@ms.form>
     </@ms.panel>
 </@ms.html5>
