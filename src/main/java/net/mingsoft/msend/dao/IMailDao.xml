@@ -15,10 +15,10 @@
 	</resultMap>
 	
 	<!--保存-->	
-	<insert id="saveEntity" useGeneratedKeys="true" keyProperty="appId"
-		parameterType="net.mingsoft.msend.entity.MailEntity" >
+	<insert id="saveEntity"  parameterType="net.mingsoft.msend.entity.MailEntity" >
 		insert into msend_mail
 		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="appId != null and appId != ''">app_id,</if>
 			<if test="mailType != null and mailType != ''">mail_type,</if>
 			<if test="mailName != null and mailName != ''">mail_name,</if>
 			<if test="mailPassword != null and mailPassword != ''">mail_password,</if>
@@ -29,6 +29,7 @@
 			<if test="mailEnable != null">mail_enable,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="appId != null and appId != ''">#{appId},</if>
 			<if test="mailType != null and mailType != ''">#{mailType},</if>
 			<if test="mailName != null and mailName != ''">#{mailName},</if>
 			<if test="mailPassword != null and mailPassword != ''">#{mailPassword},</if>

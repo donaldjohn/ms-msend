@@ -175,15 +175,6 @@ public class SmsAction extends net.mingsoft.msend.action.BaseAction{
 			this.outJson(response, null, false, getResString("err.length", this.getResString("sms.type"), "1", "150"));
 			return;			
 		}
-		//验证0启用 1禁用的值是否合法			
-		if(StringUtil.isBlank(sms.getSmsEnable())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("sms.enable")));
-			return;			
-		}
-		if(!StringUtil.checkLength(sms.getSmsEnable()+"", 1, 10)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("sms.enable"), "1", "10"));
-			return;			
-		}
 		sms.setAppId(BasicUtil.getAppId());
 		smsBiz.saveEntity(sms);
 		this.outJson(response, JSONObject.toJSONString(sms));
@@ -250,15 +241,6 @@ public class SmsAction extends net.mingsoft.msend.action.BaseAction{
 		}
 		if(!StringUtil.checkLength(sms.getSmsType()+"", 1, 150)){
 			this.outJson(response, null, false, getResString("err.length", this.getResString("sms.type"), "1", "150"));
-			return;			
-		}
-		//验证0启用 1禁用的值是否合法			
-		if(StringUtil.isBlank(sms.getSmsEnable())){
-			this.outJson(response, null,false,getResString("err.empty", this.getResString("sms.enable")));
-			return;			
-		}
-		if(!StringUtil.checkLength(sms.getSmsEnable()+"", 1, 10)){
-			this.outJson(response, null, false, getResString("err.length", this.getResString("sms.enable"), "1", "10"));
 			return;			
 		}
 		smsBiz.updateEntity(sms);

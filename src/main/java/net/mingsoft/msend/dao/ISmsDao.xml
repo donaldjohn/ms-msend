@@ -15,10 +15,10 @@
 	</resultMap>
 	
 	<!--保存-->	
-	<insert id="saveEntity" useGeneratedKeys="true" keyProperty="appId"
-		parameterType="net.mingsoft.msend.entity.SmsEntity" >
+	<insert id="saveEntity" parameterType="net.mingsoft.msend.entity.SmsEntity" >
 		insert into msend_sms
 		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="appId != null and appId != ''">app_id,</if>
 			<if test="smsType != null and smsType != ''">sms_type,</if>
 			<if test="smsUsername != null and smsUsername != ''">sms_username,</if>
 			<if test="smsPassword != null and smsPassword != ''">sms_password,</if>
@@ -29,6 +29,7 @@
 			<if test="smsEnable != null">sms_enable,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="appId != null and appId != ''">#{appId},</if>
 			<if test="smsType != null and smsType != ''">#{smsType},</if>
 			<if test="smsUsername != null and smsUsername != ''">#{smsUsername},</if>
 			<if test="smsPassword != null and smsPassword != ''">#{smsPassword},</if>

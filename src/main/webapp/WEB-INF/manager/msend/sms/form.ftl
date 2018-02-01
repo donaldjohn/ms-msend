@@ -18,30 +18,15 @@
     </@ms.nav>
     <@ms.panel>
     	<@ms.form name="smsForm" isvalidation=true>
-    		<@ms.hidden name="appId" value="${smsEntity.appId?default('')}"/>
-    			<@ms.text label="短信接口类型" name="smsType" value="${smsEntity.smsType?default('')}"  width="240px;" placeholder="请输入短信接口类型" validation={"required":"true","maxlength":"20","data-bv-stringlength-message":"短信接口类型长度不能超过二十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    			<@ms.text label="账号" name="smsUsername" value="${smsEntity.smsUsername?default('')}"  width="240px;" placeholder="请输入账号" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"账号长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+    		<@ms.hidden name="appId" value="${(smsEntity.appId)?default('')}"/>
+    			<@ms.text label="短信接口类型" name="smsType" value="${(smsEntity.smsType)?default('')}"  width="270px;" placeholder="请输入短信接口类型" validation={"required":"true","maxlength":"20","data-bv-stringlength-message":"短信接口类型长度不能超过二十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+    			<@ms.text label="账号" name="smsUsername" value="${(smsEntity.smsUsername)?default('')}"  width="270px;" placeholder="请输入账号" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"账号长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
     			<#if smsEntity??>
-    				<@ms.password name="smsPassword" label="密码"  title="" size="5" width="240"  validation={"data-bv-stringlength":"true","data-bv-stringlength-max":"20", "maxlength":"20", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-20个字符","data-bv-regexp":"true","data-bv-regexp-regexp":'^[A-Za-z0-9_]+$',"data-bv-regexp-message":"密码只能由英文字母，数字，下划线组成!"}/>
+    				<@ms.password name="smsPassword" label="密码"  title="" size="5" width="270"  validation={"data-bv-stringlength":"true","data-bv-stringlength-max":"20", "maxlength":"20", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-20个字符","data-bv-regexp":"true","data-bv-regexp-regexp":'^[A-Za-z0-9_]+$',"data-bv-regexp-message":"密码只能由英文字母，数字，下划线组成!"}/>
     			<#else>
-    				<@ms.password name="smsPassword" label="密码"  title="" size="5" width="240"  validation={"required":"false","data-bv-stringlength":"true","data-bv-stringlength-max":"20", "maxlength":"20", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-20个字符","data-bv-regexp":"true","data-bv-regexp-regexp":'^[A-Za-z0-9_]+$',"data-bv-regexp-message":"密码只能由英文字母，数字，下划线组成!", "data-bv-notempty-message":"必填项目"}/>
+    				<@ms.password name="smsPassword" label="密码"  title="" size="5" width="270"  validation={"required":"false","data-bv-stringlength":"true","data-bv-stringlength-max":"20", "maxlength":"20", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-20个字符","data-bv-regexp":"true","data-bv-regexp-regexp":'^[A-Za-z0-9_]+$',"data-bv-regexp-message":"密码只能由英文字母，数字，下划线组成!", "data-bv-notempty-message":"必填项目"}/>
     			</#if>
-    			<!--
-    				<@ms.text label="发送地址" name="smsSendUrl" value="${smsEntity.smsSendUrl?default('')}"  width="240px;" placeholder="请输入发送地址" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"发送地址长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    				<@ms.text label="短信平台后台管理地址" name="smsManagerUrl" value="${smsEntity.smsManagerUrl?default('')}"  width="240px;" placeholder="请输入短信平台后台管理地址" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"短信平台后台管理地址长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    			-->
-    			<@ms.text label="签名" name="smsSignature" value="${smsEntity.smsSignature?default('')}"  width="240px;" placeholder="请输入签名" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"签名长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    			<@ms.select 
-    				id="smsEnable"
-				    name="smsEnable" 
-				    label="坐席类型" 
-				    width="240"  
-				    list=[{"id":0,"value":"启用"},{"id":1,"value":"禁用"}] 
-				    value="${smsEntity.smsEnable?default('')}"
-				    listKey="id" 
-				    listValue="value"  
-				    validation={"required":"true", "data-bv-notempty-message":"必选项目"}
-				/>
+    			<@ms.text label="签名" name="smsSignature" value="${(smsEntity.smsSignature)?default('')}"  width="270px;" placeholder="请输入签名" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"签名长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
     	</@ms.form>
     </@ms.panel>
 </@ms.html5>
@@ -71,11 +56,12 @@
 			success: function(status) {
 				if(status.appId > 0) { 
 					<@ms.notify msg="保存或更新成功" type= "success" />
+					$(".btn-success").text("更新");
 				}
 				else{
 					<@ms.notify msg= "保存或更新失败！" type= "fail" />
+					$(".btn-success").text(btnWord);
 				}
-				$(".btn-success").text(btnWord);
 				$(".btn-success").removeAttr("disabled");
 			}
 		})
