@@ -15,6 +15,7 @@ import com.mingsoft.util.StringUtil;
 
 import net.mingsoft.msend.biz.IMailBiz;
 import net.mingsoft.msend.constant.ModelCode;
+import net.mingsoft.msend.entity.MailEntity;
 import net.mingsoft.msend.util.SendUtil;
 
 /**
@@ -54,7 +55,7 @@ public class SendAction extends net.mingsoft.msend.action.BaseAction {
 		String modelCode = request.getParameter("modelCode");
 		String content = request.getParameter("content");
 		String type = request.getParameter("type"); 
-		  
+		String sendType = "html";//request.getParameter("sendType"); 
 		
 		
 		// 验证模块编码是否为空
@@ -64,6 +65,13 @@ public class SendAction extends net.mingsoft.msend.action.BaseAction {
 			return;
 		}
 
+		String _modelCode = this.decryptByAES(request, modelCode);
+		// 将邮箱地址压如String数组
+		if (_modelCode == null) {
+			this.outJson(response, ModelCode.SEND, false,
+					this.getResString("err.error", this.getResString("model.code")));
+			return;
+		}
 		Map params = null;
 		try {
 			params = JsonUtil.getJsonToObject(content, Map.class);
@@ -74,7 +82,7 @@ public class SendAction extends net.mingsoft.msend.action.BaseAction {
 			return;
 		}
 		// 发送邮箱
-		boolean status = SendUtil.send(modelCode, receive, params, type);
+		boolean status = SendUtil.send(_modelCode, receive, params, type,MailEntity.SendTypeEnum.HTML);
 		this.outJson(response, null, status);
 	}
 }

@@ -16,9 +16,7 @@ import net.mingsoft.msend.biz.ILogBiz;
 import net.mingsoft.msend.biz.IMailBiz;
 import net.mingsoft.msend.biz.ISmsBiz;
 import net.mingsoft.msend.biz.ITemplateBiz;
-import net.mingsoft.msend.constant.e.MailEnum;
 import net.mingsoft.msend.constant.e.SendEnum;
-import net.mingsoft.msend.constant.e.ThridEnum;
 import net.mingsoft.msend.entity.LogEntity;
 import net.mingsoft.msend.entity.MailEntity;
 import net.mingsoft.msend.entity.SmsEntity;
@@ -41,7 +39,7 @@ public class SendUtil {
 	 *            发送类型sms|mail|
 	 * @return
 	 */
-	public static boolean send(String code, String receive, Map<String, String> values, String type) {
+	public static boolean send(String code, String receive, Map<String, String> values, String type,MailEntity.SendTypeEnum sendType) {
 		ITemplateBiz templateBiz = (ITemplateBiz) SpringUtil.getBean(ITemplateBiz.class);
 		TemplateEntity template = new TemplateEntity();
 		template.setTemplateCode(code);
@@ -60,7 +58,7 @@ public class SendUtil {
 				while (it.hasNext()) {
 					String key = it.next() + "";
 					if (values.get(key) instanceof String) {
-						mailContent = mailContent.replaceAll("\\{" + key + "\\}", values.get(key));
+						mailContent = mailContent.replaceAll("\\{" + key + "/\\}", values.get(key));
 					}
 				}
 			}
@@ -72,7 +70,7 @@ public class SendUtil {
 		}
 
 		if (type.equalsIgnoreCase(SendEnum.MAIL.toString())) {
-			return SendUtil.sendMail(MailEnum.HTML, template.getTemplateTitle(), mailContent, receive.split(","),
+			return SendUtil.sendMail(sendType, template.getTemplateTitle(), mailContent, receive.split(","),
 					template);
 		} else if (type.equalsIgnoreCase(SendEnum.SMS.toString())) {
 			return SendUtil.sendSms(code, receive, values, template);
@@ -93,7 +91,7 @@ public class SendUtil {
 	 *            接收用户
 	 * @param template
 	 */
-	private static boolean sendMail(MailEnum mailType, String title, String content, String[] toUser,
+	private static boolean sendMail(MailEntity.SendTypeEnum sendType, String title, String content, String[] toUser,
 			TemplateEntity template) {
 		IMailBiz mailBiz = (IMailBiz) SpringUtil.getBean(IMailBiz.class);
 		ILogBiz logBiz = (ILogBiz) SpringUtil.getBean(ILogBiz.class);
@@ -104,7 +102,7 @@ public class SendUtil {
 			LOG.error("没有配置邮件服务器");
 			return false;
 		}
-		if (mail.getMailType()!= null && mail.getMailType().equals(ThridEnum.SENDCLOUD.toString())) {
+		if (mail.getMailType()!= null && mail.getMailType().equals(MailEntity.MailType.SENDCLOUD)) {
 			try {
 				String _toUser = "";
 				for (int i = 0; i < toUser.length; i++) {
@@ -131,10 +129,10 @@ public class SendUtil {
 				e.printStackTrace();
 			}
 		} else {
-			if (mailType.toInt() == MailEnum.TEXT.toInt()) {
+			if (sendType == MailEntity.SendTypeEnum.TEXT) {
 				MailUtil.sendText(mail.getMailServer(), mail.getMailPort(), mail.getMailName(), mail.getMailPassword(),
 						title, content, toUser);
-			} else if (mailType.toInt() == MailEnum.HTML.toInt()) {
+			} else if (sendType == MailEntity.SendTypeEnum.HTML) {
 				MailUtil.sendHtml(mail.getMailServer(), mail.getMailPort(), mail.getMailName(), mail.getMailPassword(),
 						title, content, toUser);
 			}
@@ -167,7 +165,7 @@ public class SendUtil {
 		ILogBiz logBiz = (ILogBiz) SpringUtil.getBean(ILogBiz.class);
 		SmsEntity sms = (SmsEntity) smsBiz.getEntity(BasicUtil.getAppId());
 
-		if (sms.getSmsType().equals(ThridEnum.SENDCLOUD.toString())) {
+		if (sms.getSmsType().equals(MailEntity.MailType.SENDCLOUD)) {
 			String templateId = template.getTemplateSms();
 			if (!StringUtil.isInteger(templateId)) {
 				LOG.error("sendcloud 的模板id不正确");

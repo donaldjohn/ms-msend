@@ -19,15 +19,18 @@
     <@ms.panel>
     	<@ms.form name="mailForm" isvalidation=true>
     		<@ms.hidden name="appId" value="${(mailEntity.appId)?default('')}"/>
-    			<@ms.text label="邮件类型" name="mailType" value="${(mailEntity.mailType)?default('')}"  width="240px;" placeholder="请输入邮件类型" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"邮件类型长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    			<@ms.text label="账号" name="mailName" value="${(mailEntity.mailName)?default('')}"  width="240px;" placeholder="请输入账号" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"账号长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    			<@ms.password name="mailPassword" label="密码"  title="" size="5" width="240"  validation={"required":"false","data-bv-stringlength":"true","data-bv-stringlength-max":"20", "maxlength":"20", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-20个字符","data-bv-regexp":"true","data-bv-regexp-regexp":'^[A-Za-z0-9_]+$',"data-bv-regexp-message":"密码只能由英文字母，数字，下划线组成!", "data-bv-notempty-message":"必填项目"}/>
-    			<@ms.text label="服务器" name="mailServer" value="${(mailEntity.mailServer)?default('')}"  width="240px;" placeholder="请输入服务器" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"服务器长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+    			<@ms.text label="邮件类型" name="mailType" value="${(mailEntity.mailType)?default('')}"  width="270px;" placeholder="请输入邮件类型" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"邮件类型长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+    			<@ms.text label="账号" name="mailName" value="${(mailEntity.mailName)?default('')}"  width="270px;" placeholder="请输入账号" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"账号长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+    			<@ms.password name="mailPassword" label="密码"  title="" size="5" width="270"  validation={"required":"false","data-bv-stringlength":"true","data-bv-stringlength-max":"20", "maxlength":"20", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-20个字符","data-bv-regexp":"true","data-bv-regexp-regexp":'^[A-Za-z0-9_]+$',"data-bv-regexp-message":"密码只能由英文字母，数字，下划线组成!", "data-bv-notempty-message":"必填项目"}/>
+    			<@ms.text label="服务器" name="mailServer" value="${(mailEntity.mailServer)?default('')}"  width="270px;" placeholder="请输入服务器" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"服务器长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+    			<@ms.text label="端口号" name="mailPort" value="${(mailEntity.mailPort)?default('')}"  width="270px;" placeholder="请输入服务器" validation={"maxlength":"10","data-bv-stringlength-message":"端口号不能超过十个字符长度!"}/>
+    			<@ms.text label="发送人姓名" name="mailFormName" value="${(mailEntity.mailFormName)?default('')}"  width="270px;" placeholder="请输入发送人姓名" validation={"maxlength":"50","data-bv-stringlength-message":"发送人姓名长度不能超过五十个字符长度!"}/>
+    			<@ms.text label="发送者邮箱地址" name="mailForm" value="${(mailEntity.mailForm)?default('')}"  width="270px;" placeholder="请输入发送者邮箱地址" validation={"maxlength":"50","data-bv-stringlength-message":"发送者邮箱地址不能超过五十个字符长度!"}/>
     			<@ms.select 
     				id="mailEnable"
 				    name="mailEnable" 
 				    label="是否启用" 
-				    width="240"  
+				    width="270"  
 				    list=[{"id":0,"value":"启用"},{"id":1,"value":"禁用"}] 
 				    value="${(mailEntity.mailEnable)?default('')}"
 				    listKey="id" 
@@ -38,7 +41,7 @@
     </@ms.panel>
 </@ms.html5>
 <script>
-	$("#mailEnable").select2({width: "210px"});
+	$("#mailEnable").select2({width: "240px"});
 	var url = "${managerPath}/msend/mail/save.do";
 	if($("input[name = 'appId']").val() > 0){
 		url = "${managerPath}/msend/mail/update.do";

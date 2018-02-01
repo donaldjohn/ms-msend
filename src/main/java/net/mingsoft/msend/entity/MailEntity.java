@@ -1,5 +1,6 @@
 package net.mingsoft.msend.entity;
 
+import com.mingsoft.base.constant.e.BaseEnum;
 import com.mingsoft.base.entity.BaseEntity;
 import java.util.Date;
 
@@ -177,5 +178,30 @@ public class MailEntity extends BaseEntity {
 	public Integer getMailEnable() {
 		return this.mailEnable;
 	}
-	
+	public static class MailType {
+		public static final String SENDCLOUD = "sendcloud";
+	}
+	public static enum SendTypeEnum implements BaseEnum {
+		TEXT("text"), HTML("html");
+		
+		/**
+		 * 枚举类型
+		 */
+		Object code;
+
+		/**
+		 * 构造方法
+		 * @param code 传入的枚举类型
+		 */
+		SendTypeEnum(Object code) {
+			this.code = code;
+		}
+
+		@Override
+		public int toInt() {
+			// TODO Auto-generated method stub
+			return Integer.parseInt(this.code.toString());
+		}
+
+	}
 }
