@@ -19,7 +19,15 @@
     <@ms.panel>
     	<@ms.form name="mailForm" isvalidation=true>
     		<@ms.hidden name="appId" value="${(mailEntity.appId)?default('')}"/>
-    			<@ms.text label="邮件类型" name="mailType" value="${(mailEntity.mailType)?default('')}"  width="270px;" placeholder="请输入邮件类型" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"邮件类型长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+    			<@ms.select 
+    				id="mailType"
+				    name="mailType" 
+				    label="邮件类型" 
+				    width="270"  
+				    list=["sendcloud","地址发送方式"] 
+				    value="${(mailEntity.mailType)?default('')}"
+				    validation={"required":"true", "data-bv-notempty-message":"必选项目"}
+				/>
     			<@ms.text label="账号" name="mailName" value="${(mailEntity.mailName)?default('')}"  width="270px;" placeholder="请输入账号" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"账号长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
     			<@ms.password name="mailPassword" label="密码"  title="" size="5" width="270"  validation={"required":"false","data-bv-stringlength":"true","data-bv-stringlength-max":"20", "maxlength":"20", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-20个字符", "data-bv-notempty-message":"必填项目"}/>
     			<@ms.text label="服务器" name="mailServer" value="${(mailEntity.mailServer)?default('')}"  width="270px;" placeholder="请输入服务器" validation={"maxlength":"50","data-bv-stringlength-message":"服务器长度不能超过五十个字符长度!"}/>
@@ -41,7 +49,7 @@
     </@ms.panel>
 </@ms.html5>
 <script>
-	$("#mailEnable").select2({width: "240px"});
+	$("#mailType").select2({width: "240px"});
 	var url = "${managerPath}/msend/mail/save.do";
 	if($("input[name = 'appId']").val() > 0){
 		url = "${managerPath}/msend/mail/update.do";
