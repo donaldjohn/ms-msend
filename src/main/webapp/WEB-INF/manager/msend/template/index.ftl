@@ -46,7 +46,6 @@
 				        	field: 'templateTitle',
 				        	title: '标题',
 				        	width:'200',
-				        	align: 'center',
 				        	formatter:function(value,row,index) {
 				        		var url = "${managerPath}/msend/template/form.do?templateId="+row.templateId;
 				        		return "<a href=" +url+ " target='_self'>" + value + "</a>";
