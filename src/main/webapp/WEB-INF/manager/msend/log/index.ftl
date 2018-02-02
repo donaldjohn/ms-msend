@@ -20,7 +20,7 @@
 			id="logType"
 		    name="logType" 
 		    label="日志类型" 
-		    width="300"  
+		    width="240"  
 		    list=[{"id":1,"value":"短信"},{"id":0,"value":"邮件"}] 
 		    value=""
 		    listKey="id" 

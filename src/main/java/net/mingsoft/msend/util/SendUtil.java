@@ -121,7 +121,7 @@ public class SendUtil {
 					log.setLogType(SendEnum.MAIL.toInt());
 					log.setLogDatetime(new Date());
 					log.setLogContent(content);
-					log.setLogReceive(_toUser);
+					log.setLogReceive(_toUser.replace(";",""));
 					logBiz.saveEntity(log);
 				}
 				return flag;
