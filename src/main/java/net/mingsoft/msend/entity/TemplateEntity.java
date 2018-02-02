@@ -54,7 +54,7 @@ public class TemplateEntity extends BaseEntity {
 	
 	
 	public String getTemplateCodeAes() {
-		templateCodeAes = AESUtil.encrypt(this.templateCodeAes+"", StringUtil.Md5(this.getAppId()+"").substring(16));
+		templateCodeAes = AESUtil.encrypt(this.templateCode+"", StringUtil.Md5(this.getAppId()+"").substring(16));
 		return templateCodeAes;
 	}
 
