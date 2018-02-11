@@ -31,7 +31,7 @@
     			<@ms.text label="账号" name="mailName" value="${(mailEntity.mailName)?default('')}"  width="270px;" placeholder="请输入账号" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"账号长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
     			<@ms.password name="mailPassword" label="密码"  title="" size="5" width="270"  validation={"required":"false","data-bv-stringlength":"true","data-bv-stringlength-max":"20", "maxlength":"20", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-20个字符", "data-bv-notempty-message":"必填项目"}/>
     			<@ms.text label="服务器" name="mailServer" value="${(mailEntity.mailServer)?default('')}"  width="270px;" placeholder="请输入服务器" validation={"maxlength":"50","data-bv-stringlength-message":"服务器长度不能超过五十个字符长度!"}/>
-    			<@ms.text label="端口号" name="mailPort" value="${(mailEntity.mailPort)?default('')}"  width="270px;" placeholder="请输入端口号" validation={"maxlength":"10","data-bv-stringlength-message":"端口号不能超过十个字符长度!"}/>
+    			<@ms.number label="端口号" name="mailPort" value="${(mailEntity.mailPort)?default('')}" max=9999999 width="270px;" placeholder="请输入端口号" maxlength=7  />
     			<@ms.text label="发送人姓名" name="mailFormName" value="${(mailEntity.mailFormName)?default('')}"  width="270px;" placeholder="请输入发送人姓名" validation={"maxlength":"50","data-bv-stringlength-message":"发送人姓名长度不能超过五十个字符长度!"}/>
     			<@ms.text label="发送者邮箱地址" name="mailForm" value="${(mailEntity.mailForm)?default('')}"  width="270px;" placeholder="请输入发送者邮箱地址" validation={"maxlength":"50","data-bv-stringlength-message":"发送者邮箱地址不能超过五十个字符长度!"}/>
     			<!--<@ms.select 
