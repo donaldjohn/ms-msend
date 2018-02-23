@@ -120,7 +120,7 @@ public class SendUtil {
 					log.setAppId(BasicUtil.getAppId());
 					log.setLogType(SendEnum.MAIL.toInt());
 					log.setLogDatetime(new Date());
-					log.setLogContent(content);
+					log.setLogContent("mail类型");
 					log.setLogReceive(_toUser.replace(";",""));
 					logBiz.saveEntity(log);
 				}
@@ -139,7 +139,7 @@ public class SendUtil {
 			for(int i = 0; i < toUser.length ; i++){
 				log.setLogType(SendEnum.MAIL.toInt());
 				log.setLogDatetime(new Date());
-				log.setLogContent(content);
+				log.setLogContent("mail类型");
 				log.setLogReceive(toUser[i]);
 				logBiz.saveEntity(log);
 			}
