@@ -24,7 +24,7 @@
 				    name="mailType" 
 				    label="邮件类型" 
 				    width="270"  
-				    list=["sendcloud","地址发送方式"] 
+				    list=["sendcloud","邮件服务器"] 
 				    value="${(mailEntity.mailType)?default('')}"
 				    validation={"required":"true", "data-bv-notempty-message":"必选项目"}
 				/>

@@ -85,7 +85,7 @@
 						     }
 				    	},{
 				        	field: 'logDatetime',
-				        	title: '时间',
+				        	title: '发送时间',
 				        	width:'200',
 				        	align: 'center'
 				    	}			]
