@@ -50,25 +50,24 @@ public class SendUtil {
 			return false;
 		}
 		String mailContent = template.getTemplateMail();
-		if (template.getTemplateId() > 0) {
-
-			if (values != null) {
-
-				Iterator it = values.keySet().iterator();
-				while (it.hasNext()) {
-					String key = it.next() + "";
-					if (values.get(key) instanceof String) {
-						mailContent = mailContent.replaceAll("\\{" + key + "/\\}", values.get(key));
+		if(sendType.equals(SendEnum.MAIL.toString())){
+			if (template.getTemplateId() > 0) {
+				if (values != null) {
+					Iterator it = values.keySet().iterator();
+					while (it.hasNext()) {
+						String key = it.next() + "";
+						if (values.get(key) instanceof String) {
+							mailContent = mailContent.replaceAll("\\{" + key + "/\\}", values.get(key));
+						}
 					}
 				}
+				LOG.debug(code + "send  to:" + receive + " content:" + mailContent);
+				// 如果实体不为空就获取邮箱模板的标题和内容一起发送指定的邮箱地址
+			} else {
+				LOG.error("发送模板不存在");
+				return false;
 			}
-			LOG.debug(code + "send  to:" + receive + " content:" + mailContent);
-			// 如果实体不为空就获取邮箱模板的标题和内容一起发送指定的邮箱地址
-		} else {
-			LOG.error("发送模板不存在");
-			return false;
 		}
-
 		if (type.equalsIgnoreCase(SendEnum.MAIL.toString())) {
 			return SendUtil.sendMail(sendType, template.getTemplateTitle(), mailContent, receive.split(","),
 					template);
@@ -166,7 +165,7 @@ public class SendUtil {
 		SmsEntity sms = (SmsEntity) smsBiz.getEntity(BasicUtil.getAppId());
 
 		if (sms.getSmsType().equals(MailEntity.MailType.SENDCLOUD)) {
-			String templateId = template.getTemplateSms();
+			String templateId = sms.getSmsSendUrl();
 			if (!StringUtil.isInteger(templateId)) {
 				LOG.error("sendcloud 的模板id不正确");
 				return false;
