@@ -1,5 +1,5 @@
 <@ms.html5>
-	 <@ms.nav title="发送日志管理" back=true>
+	 <@ms.nav title="发送日志编辑" back=true>
     	<@ms.saveButton  onclick="save()"/>
     </@ms.nav>
     <@ms.panel>
