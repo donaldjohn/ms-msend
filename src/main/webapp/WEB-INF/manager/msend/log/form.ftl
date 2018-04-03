@@ -6,10 +6,10 @@
     	<@ms.form name="logForm" isvalidation=true>
     		<@ms.hidden name="logId" value="${logEntity.logId?default('')}"/>
     			<@ms.number label="应用编号" name="appId" value="${logEntity.appId?default('')}" width="240px;" placeholder="请输入应用编号" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"应用编号长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    			<@ms.text label="时间" name="logDatetime" value="${logEntity.logDatetime?string('yyyy-MM-dd')}"  width="240px;"/>
+    			<@ms.text label="发送时间" name="logDatetime" value="${logEntity.logDatetime?string('yyyy-MM-dd')}"  width="240px;"/>
     			<@ms.text label="接收内容" name="logContent" value="${logEntity.logContent?default('')}"  width="240px;" placeholder="请输入接收内容" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"接收内容长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
     			<@ms.text label="接收人" name="logReceive" value="${logEntity.logReceive?default('')}"  width="240px;" placeholder="请输入接收人" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"接收人长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    			<@ms.number label="日志类型0邮件1短信" name="logType" value="${logEntity.logType?default('')}" width="240px;" placeholder="请输入日志类型0邮件1短信" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"日志类型0邮件1短信长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+    			<@ms.number label="日志类型（0邮件1短信）" name="logType" value="${logEntity.logType?default('')}" width="240px;" placeholder="请输入日志类型0邮件1短信" validation={"required":"true","maxlength":"50","data-bv-stringlength-message":"日志类型0邮件1短信长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
     	</@ms.form>
     </@ms.panel>
 </@ms.html5>

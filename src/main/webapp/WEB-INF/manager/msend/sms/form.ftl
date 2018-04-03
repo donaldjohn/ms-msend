@@ -19,16 +19,17 @@
     <@ms.panel>
     	<@ms.form name="smsForm" isvalidation=true>
     		<@ms.hidden name="appId" value="${(smsEntity.appId)?default('')}"/>
-    		<@ms.formRow label="短信接口类型" help="提示:支持短信网关与sendcloud两种">
     			<@ms.select 
     				id="smsType"
+    				label="短信接口类型"
 				    name="smsType"  
 				    width="270"  
 				    list=["sendcloud","地址发送方式"] 
 				    value="${(mailEntity.smsType)?default('')}"
 				    validation={"required":"true", "data-bv-notempty-message":"必选项目"}
+				    help="提示：支持短信网关与sendcloud两种；短信网关：所有的输入项为必填项，具体数据由短信接口供应商提供；sendcloud：只需要提供账号smsuser与sms_key信息"
+				    helpDirection="bottom"
 				/>
-			</@ms.formRow>
     			<@ms.text label="账号(SMS_USER)" name="smsUsername" value="${(smsEntity.smsUsername)?default('')}"  width="270px;" placeholder="请输入账号" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"账号长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
     			<#if smsEntity??>
     				<@ms.password name="smsPassword" label="密码(SMS_KEY)"  title="" size="5" width="270"  validation={"required":"false","data-bv-stringlength":"true","data-bv-stringlength-max":"60", "maxlength":"60", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-60个字符","data-bv-regexp":"true","data-bv-regexp-regexp":'^[A-Za-z0-9_]+$',"data-bv-regexp-message":"密码只能由英文字母，数字，下划线组成!","data-bv-notempty-message":"必填项目"}/>

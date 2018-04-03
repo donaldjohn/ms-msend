@@ -19,16 +19,17 @@
     <@ms.panel>
     	<@ms.form name="mailForm" isvalidation=true>
     		<@ms.hidden name="appId" value="${(mailEntity.appId)?default('')}"/>
-    		<@ms.formRow label="邮件类型" help="提示:支持邮件服务器、sendcloud两种">
     			<@ms.select 
     				id="mailType"
 				    name="mailType" 
+				    label="邮件类型"
 				    width="270"  
 				    list=["sendcloud","邮件服务器"] 
 				    value="${(mailEntity.mailType)?default('')}"
 				    validation={"required":"true", "data-bv-notempty-message":"必选项目"}
+				    helpDirection="bottom"
+				    help="提示：支持邮件服务器、sendcloud两种； 邮件服务器：所有输入项为必填； sendcloud：只需输入API_USER与AP_I_KEY；"
 				/>
-			</@ms.formRow>
     			<@ms.text label="账号(API_USER)" name="mailName" value="${(mailEntity.mailName)?default('')}"  width="270px;" placeholder="请输入账号" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"账号长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
     			<@ms.password name="mailPassword" label="密码(API_KEY)"  title="" size="5" width="270"  validation={"required":"false","data-bv-stringlength":"true","data-bv-stringlength-max":"20", "maxlength":"20", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-20个字符", "data-bv-notempty-message":"必填项目"}/>
     			<@ms.text label="服务器" name="mailServer" value="${(mailEntity.mailServer)?default('')}"  width="270px;" placeholder="请输入服务器" validation={"maxlength":"50","data-bv-stringlength-message":"服务器长度不能超过五十个字符长度!"}/>
