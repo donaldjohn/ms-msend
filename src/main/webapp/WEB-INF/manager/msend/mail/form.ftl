@@ -13,7 +13,7 @@
     		color: rgb(85, 85, 85);
 		}
 	</style> 
-	 <@ms.nav title="邮件编辑" back=true>
+	 <@ms.nav title="邮件配置" back=true>
     	<@ms.saveButton  onclick="save()"/>
     </@ms.nav>
     <@ms.panel>
@@ -29,8 +29,8 @@
 				    validation={"required":"true", "data-bv-notempty-message":"必选项目"}
 				/>
 			</@ms.formRow>
-    			<@ms.text label="账号" name="mailName" value="${(mailEntity.mailName)?default('')}"  width="270px;" placeholder="请输入账号" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"账号长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    			<@ms.password name="mailPassword" label="密码"  title="" size="5" width="270"  validation={"required":"false","data-bv-stringlength":"true","data-bv-stringlength-max":"20", "maxlength":"20", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-20个字符", "data-bv-notempty-message":"必填项目"}/>
+    			<@ms.text label="账号(API_USER)" name="mailName" value="${(mailEntity.mailName)?default('')}"  width="270px;" placeholder="请输入账号" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"账号长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+    			<@ms.password name="mailPassword" label="密码(API_KEY)"  title="" size="5" width="270"  validation={"required":"false","data-bv-stringlength":"true","data-bv-stringlength-max":"20", "maxlength":"20", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-20个字符", "data-bv-notempty-message":"必填项目"}/>
     			<@ms.text label="服务器" name="mailServer" value="${(mailEntity.mailServer)?default('')}"  width="270px;" placeholder="请输入服务器" validation={"maxlength":"50","data-bv-stringlength-message":"服务器长度不能超过五十个字符长度!"}/>
 				<@ms.number label="端口号" name="mailPort" value="${(mailEntity.mailPort)?default('')}" max=9999999 width="270px;" placeholder="请输入端口号" maxlength=7  />
 				<@ms.text label="发送人姓名" name="mailFormName" value="${(mailEntity.mailFormName)?default('')}"  width="270px;" placeholder="请输入发送人姓名" validation={"maxlength":"50","data-bv-stringlength-message":"发送人姓名长度不能超过五十个字符长度!"}/>

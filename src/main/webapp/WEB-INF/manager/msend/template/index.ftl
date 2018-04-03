@@ -1,5 +1,5 @@
 <@ms.html5>
-	<@ms.nav title="发送消息模板管理"></@ms.nav>
+	<@ms.nav title="消息模板"></@ms.nav>
 	<@ms.searchForm name="searchForm" isvalidation=true>
 	<@ms.text label="标题" name="templateTitle" value=""  width="240px;" placeholder="请输入标题" validation={"maxlength":"50","data-bv-stringlength-message":"标题长度不能超过五十个字符长度!"}/>
 			<@ms.searchFormButton>
@@ -52,7 +52,7 @@
 				        	}
 				    	},	{
 				        	field: 'templateCode',
-				        	title: '邮件模块代码',
+				        	title: '模块代码',
 				        	width:'60',
 				        	align: 'center'
 				    	},{
