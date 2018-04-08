@@ -51,7 +51,7 @@ public class SendUtil {
 			return false;
 		}
 		String mailContent = template.getTemplateMail();
-		if(sendType.equals(SendEnum.MAIL.toString())){
+		if(type.equals(SendEnum.MAIL.toString())){
 			if (template.getTemplateId() > 0) {
 				if (values != null) {
 					Iterator it = values.keySet().iterator();
