@@ -165,7 +165,7 @@ public class SendUtil {
 		ILogBiz logBiz = (ILogBiz) SpringUtil.getBean(ILogBiz.class);
 		SmsEntity sms = (SmsEntity) smsBiz.getEntity(BasicUtil.getAppId());
 		if(ObjectUtil.isNull(sms)){
-			LOG.error("短信配置未处理");
+			LOG.error("没有设置短信配置");
 			return false;
 		}
 		if (sms.getSmsType().equals(MailEntity.MailType.SENDCLOUD)) {
