@@ -39,10 +39,11 @@ public class SendAction extends net.mingsoft.msend.action.BaseAction {
 	/**
 	 * 自由调用邮箱
 	 * 
-	 * @param peopleMail
-	 *            邮件地址
 	 * @param modelCode
 	 *            模块编码（AES加密过的）
+	 * @param content 消息内容
+	 * @param type 消息类型 mail|sms
+	 * @param receive 接收者（邮箱或手机号）
 	 * @param request
 	 *            HttpServletRequest对象
 	 * @param response 
@@ -85,4 +86,5 @@ public class SendAction extends net.mingsoft.msend.action.BaseAction {
 		boolean status = SendUtil.send(_modelCode, receive, params, type,MailEntity.SendTypeEnum.HTML);
 		this.outJson(response, null, status);
 	}
+	
 }
