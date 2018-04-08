@@ -57,7 +57,7 @@
 				        	align: 'center'
 				    	},{
 				        	field: 'templateCodeAes',
-				        	title: '加密邮件模块代码（发送接口使用）',
+				        	title: '加密模块代码（发送接口使用）',
 				        	width:'200',
 				        	align: 'center'
 				    	}		]
