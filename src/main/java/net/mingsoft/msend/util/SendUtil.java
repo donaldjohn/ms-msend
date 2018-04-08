@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import com.alibaba.fastjson.JSONArray;
 import com.mingsoft.util.StringUtil;
 
+import cn.hutool.core.util.ObjectUtil;
 import net.mingsoft.basic.util.BasicUtil;
 import net.mingsoft.basic.util.SpringUtil;
 import net.mingsoft.msend.biz.ILogBiz;
@@ -163,7 +164,10 @@ public class SendUtil {
 		ISmsBiz smsBiz = (ISmsBiz) SpringUtil.getBean(ISmsBiz.class);
 		ILogBiz logBiz = (ILogBiz) SpringUtil.getBean(ILogBiz.class);
 		SmsEntity sms = (SmsEntity) smsBiz.getEntity(BasicUtil.getAppId());
-
+		if(ObjectUtil.isNull(sms)){
+			LOG.error("短信配置未处理");
+			return false;
+		}
 		if (sms.getSmsType().equals(MailEntity.MailType.SENDCLOUD)) {
 			String templateId = sms.getSmsSendUrl();
 			if (!StringUtil.isInteger(templateId)) {
