@@ -18,4 +18,9 @@ public final class Const {
 	public final static ResourceBundle RESOURCES = ResourceBundle.getBundle("net.mingsoft.msend.resources.resources");
 	
 	public static String MODEL_CODE = "modelCode";
+	
+	/**
+	 * 请求地址
+	 */
+	public static String SEND_URL = "/msend/send.do";
 }
