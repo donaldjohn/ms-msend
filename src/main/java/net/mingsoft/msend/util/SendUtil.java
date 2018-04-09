@@ -2,15 +2,18 @@ package net.mingsoft.msend.util;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 
 import com.alibaba.fastjson.JSONArray;
 import com.mingsoft.util.StringUtil;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.http.HttpUtil;
 import net.mingsoft.basic.util.BasicUtil;
 import net.mingsoft.basic.util.SpringUtil;
 import net.mingsoft.msend.biz.ILogBiz;
@@ -120,7 +123,7 @@ public class SendUtil {
 					log.setAppId(BasicUtil.getAppId());
 					log.setLogType(SendEnum.MAIL.toInt());
 					log.setLogDatetime(new Date());
-					log.setLogContent("mail类型");
+					log.setLogContent("mail类型"+template.getTemplateCode());
 					log.setLogReceive(_toUser.replace(";",""));
 					logBiz.saveEntity(log);
 				}
@@ -186,7 +189,7 @@ public class SendUtil {
 						log.setAppId(BasicUtil.getAppId());
 						log.setLogType(SendEnum.SMS.toInt());
 						log.setLogDatetime(new Date());
-						log.setLogContent("模板编号:" + templateId);
+						log.setLogContent("模板编号:" + template.getTemplateCode());
 						log.setLogReceive(phones[i]);
 						logBiz.saveEntity(log);
 					} else {
@@ -199,16 +202,37 @@ public class SendUtil {
 				e.printStackTrace();
 			}
 		} else { // 普通通过post 地址的方式请求
-			// if (values != null) {
-			// Iterator it = values.keySet().iterator();
-			// while (it.hasNext()) {
-			// String key = it.next() + "";
-			// if (values.get(key) instanceof String) {
-			// content = content.replaceAll("\\{" + key + "\\}",
-			// values.get(key));
-			// }
-			// }
-			// }
+			String mailContent = template.getTemplateSms();
+			 if (values != null) {
+				if (template.getTemplateId() > 0) {
+					Iterator it = values.keySet().iterator();
+					while (it.hasNext()) {
+						String key = it.next() + "";
+						if (values.get(key) instanceof String) {
+							mailContent = mailContent.replaceAll("\\{" + key + "/\\}", values.get(key));
+						}
+					}
+				} else {
+					LOG.error("发送模板不存在");
+					return false;
+				}
+			 }
+			 Map params = new HashMap();
+			 params.put("content", mailContent);
+			 params.put("mobile", phone);
+			 String result = HttpUtil.post(sms.getSmsSendUrl(),params);
+			 LOG.error("消息发送结果"+result);
+			 String[] phones = phone.split(",");
+				for (int i = 0; i < phones.length; i++) {
+					LogEntity log = new LogEntity();
+					log.setAppId(BasicUtil.getAppId());
+					log.setLogType(SendEnum.SMS.toInt());
+					log.setLogDatetime(new Date());
+					log.setLogContent("模板编号:" + template.getTemplateCode());
+					log.setLogReceive(phones[i]);
+					logBiz.saveEntity(log);
+				}
+			 return true;
 		}
 
 		return false;

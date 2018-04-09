@@ -25,19 +25,23 @@
 				    name="smsType"  
 				    width="270"  
 				    list=["sendcloud","地址发送方式"] 
-				    value="${(mailEntity.smsType)?default('')}"
+				    value="${(smsEntity.smsType)?default('')}"
 				    validation={"required":"true", "data-bv-notempty-message":"必选项目"}
 				    help="提示：支持短信网关与sendcloud两种；短信网关：所有的输入项为必填项，具体数据由短信接口供应商提供；sendcloud：只需要提供账号smsuser与sms_key信息"
 				    helpDirection="bottom"
 				/>
-    			<@ms.text label="账号(SMS_USER)" name="smsUsername" value="${(smsEntity.smsUsername)?default('')}"  width="270px;" placeholder="请输入账号" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"账号长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    			<#if smsEntity??>
-    				<@ms.password name="smsPassword" label="密码(SMS_KEY)"  title="" size="5" width="270"  validation={"required":"false","data-bv-stringlength":"true","data-bv-stringlength-max":"60", "maxlength":"60", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-60个字符","data-bv-regexp":"true","data-bv-regexp-regexp":'^[A-Za-z0-9_]+$',"data-bv-regexp-message":"密码只能由英文字母，数字，下划线组成!","data-bv-notempty-message":"必填项目"}/>
-    			<#else>
-    				<@ms.password name="smsPassword" label="密码(SMS_KEY)"  title="" size="5" width="270"  validation={"required":"false","data-bv-stringlength":"true","data-bv-stringlength-max":"60", "maxlength":"60", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-60个字符","data-bv-regexp":"true","data-bv-regexp-regexp":'^[A-Za-z0-9_]+$',"data-bv-regexp-message":"密码只能由英文字母，数字，下划线组成!","data-bv-notempty-message":"必填项目"}/>
-    			</#if>
-    			<@ms.text label="签名" name="smsSignature" value="${(smsEntity.smsSignature)?default('')}"  width="270px;" placeholder="请输入签名" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"签名长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
-    			<@ms.text label="发送地址" name="smsSendUrl" value="${(smsEntity.smsSendUrl)?default('')}"  width="270px;" placeholder="请输入发送地址" validation={"maxlength":"50","data-bv-stringlength-message":"发送地址长度不能超过五十个字符长度!"}/>
+				<div class="sendcloud">
+	    			<@ms.text label="账号(SMS_USER)" name="smsUsername" value="${(smsEntity.smsUsername)?default('')}"  width="270px;" placeholder="请输入账号" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"账号长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+	    			<#if smsEntity??>
+	    				<@ms.password name="smsPassword" label="密码(SMS_KEY)"  title="" size="5" width="270"  validation={"required":"false","data-bv-stringlength":"true","data-bv-stringlength-max":"60", "maxlength":"60", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-60个字符","data-bv-regexp":"true","data-bv-regexp-regexp":'^[A-Za-z0-9_]+$',"data-bv-regexp-message":"密码只能由英文字母，数字，下划线组成!","data-bv-notempty-message":"必填项目"}/>
+	    			<#else>
+	    				<@ms.password name="smsPassword" label="密码(SMS_KEY)"  title="" size="5" width="270"  validation={"required":"false","data-bv-stringlength":"true","data-bv-stringlength-max":"60", "maxlength":"60", "data-bv-stringLength-min":"6" ,"data-bv-stringlength-message":"密码长度为6-60个字符","data-bv-regexp":"true","data-bv-regexp-regexp":'^[A-Za-z0-9_]+$',"data-bv-regexp-message":"密码只能由英文字母，数字，下划线组成!","data-bv-notempty-message":"必填项目"}/>
+	    			</#if>
+	    			<@ms.text label="签名" name="smsSignature" value="${(smsEntity.smsSignature)?default('')}"  width="270px;" placeholder="请输入签名" validation={"required":"false","maxlength":"50","data-bv-stringlength-message":"签名长度不能超过五十个字符长度!", "data-bv-notempty-message":"必填项目"}/>
+    			</div>
+    			<div class="sendUrl">
+    				<@ms.text label="发送地址" name="smsSendUrl" value="${(smsEntity.smsSendUrl)?default('')}"  width="800px;" placeholder="请输入发送地址" validation={"maxlength":"300","data-bv-stringlength-message":"发送地址长度不能超过三百个字符长度!"}/>
+    			</div>
     	</@ms.form>
     </@ms.panel>
 </@ms.html5>
@@ -48,6 +52,22 @@
 		url = "${managerPath}/msend/sms/update.do";
 		$(".btn-success").text("更新");
 	}
+	<#if (smsEntity.smsType)?default("") == "地址发送方式">
+		$(".sendUrl").show();
+		$(".sendcloud").hide();
+	<#else>
+		$(".sendcloud").show();
+		$(".sendUrl").hide();
+	</#if>
+	$("select#smsType").change(function(){
+		if($(this).val() == "地址发送方式"){
+			$(".sendUrl").show();
+			$(".sendcloud").hide();
+		}else if($(this).val() == "sendcloud"){
+			$(".sendcloud").show();
+			$(".sendUrl").hide();
+		}
+	 });
 	//编辑按钮onclick
 	function save() {
 		$("#smsForm").data("bootstrapValidator").validate();

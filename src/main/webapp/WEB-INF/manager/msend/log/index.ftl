@@ -62,16 +62,6 @@
 			toolbar: "#toolbar",
 	    	columns: [
 				    	{
-				        	field: 'logReceive',
-				        	title: '接收人',
-				        	width:'100',
-				        	align: 'center'
-				    	},{
-				        	field: 'logContent',
-				        	title: '接收内容',
-				        	width:'255',
-				        	align: 'center'
-				    	},{
 				        	field: 'logType',
 				        	title: '日志类型',
 				        	width:'50',
@@ -83,6 +73,14 @@
 				        			return "邮件";
 				        		}
 						     }
+				    	},{
+				        	field: 'logReceive',
+				        	title: '接收人',
+				        	width:'100'
+				    	},{
+				        	field: 'logContent',
+				        	title: '接收内容',
+				        	width:'255'
 				    	},{
 				        	field: 'logDatetime',
 				        	title: '发送时间',
