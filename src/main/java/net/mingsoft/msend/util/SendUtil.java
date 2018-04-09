@@ -133,7 +133,7 @@ public class SendUtil {
 				MailUtil.sendText(mail.getMailServer(), mail.getMailPort(), mail.getMailName(), mail.getMailPassword(),
 						title, content, toUser);
 			} else if (sendType == MailEntity.SendTypeEnum.HTML) {
-				MailUtil.sendHtml(mail.getMailServer(), mail.getMailPort(), mail.getMailName(), mail.getMailPassword(),
+				MailUtil.sendHtml(mail.getMailServer(), mail.getMailPort(), mail.getMailName(), mail.getMailPassword(),mail.getMailFormName(),
 						title, content, toUser);
 			}
 			for(int i = 0; i < toUser.length ; i++){

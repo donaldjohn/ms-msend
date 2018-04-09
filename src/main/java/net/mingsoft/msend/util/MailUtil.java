@@ -22,6 +22,7 @@ The MIT License (MIT) * Copyright (c) 2016 铭飞科技(mingsoft.net)
 package net.mingsoft.msend.util;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -89,12 +90,13 @@ public class MailUtil {
 	 * @param port　端口
 	 * @param userName　账号
 	 * @param password　密码
+	 * @param formName　发送人姓名
 	 * @param title　标题
 	 * @param content　html内容
 	 * @param toUser　接收人
 	 * @throws javax.mail.MessagingException 
 	 */
-	public static void sendHtml(String host, int port, String userName, String password, String title, String content, String[] toUser){
+	public static void sendHtml(String host, int port, String userName, String password,  String formName, String title, String content, String[] toUser){
 		JavaMailSenderImpl senderImpl = new JavaMailSenderImpl();
 		// 设定mail server
 		senderImpl.setHost(host);
@@ -108,21 +110,26 @@ public class MailUtil {
 			try {
 				// 设置收件人，寄件人
 				messageHelper.setTo(toUser);
-				messageHelper.setFrom(userName);
+				try {
+					messageHelper.setFrom(userName,formName);
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				messageHelper.setSubject(title);
 				// true 表示启动HTML格式的邮件
-				messageHelper.setText(content, true);
+				messageHelper.setText(content,true);
 			} catch (javax.mail.MessagingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 
 			senderImpl.setUsername(userName); // 根据自己的情况,设置username
 			senderImpl.setPassword(password); // 根据自己的情况, 设置password
 			Properties prop = new Properties();
 			prop.put("mail.smtp.auth", "true"); // 将这个参数设为true，让服务器进行认证,认证用户名和密码是否正确
 			prop.put("mail.smtp.timeout", "25000");
+			prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); 
 			senderImpl.setJavaMailProperties(prop);
 			// 发送邮件
 			senderImpl.send(mailMessage);
